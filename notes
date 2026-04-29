@@ -1,0 +1,61 @@
+*Seria interessante transformar em classe, ajustar código com paradigma OO
+*Sugestão de melhoria: para arquivos muitos grandes, vale a pena fazer o processamento com chunks
+*O sqlite só está aguentando exibir até 400 colunas
+
+
+* O que significa cada itm da tupla GT retornada pela cyvcf2?
+    " genotypes returns a list for each sample Indicating the allele and phasing.
+    e.g. [0, 1, True] corresponds to 0|1 while [1, 2, False] corresponds to 1/2"
+
+* O que significa quando tem -1? 
+    Dado faltante
+
+* E quando só aparece 1 número além do True/False? Dado faltante, no vcf só tem um '.'
+    Ex:
+        Variante 3: UFES_001 [.:.:.:0] -> [-1, True]
+            "A Biologia: A string "1" sozinha (sem barras de divisão como 0/1) significa que a máquina identificou apenas um alelo naquela posição. 
+            Isso confirma que estamos lidando com um cromossomo haploide (como o Y em um homem biológico). 
+            O valor 1 indica que o paciente possui a variante alternativa.
+            A Tradução para Python: Como é um cromossomo haploide, não há mistura genética. 
+            O algoritmo empacota o alelo 1 na lista e crava a flag de faseamento como True por padrão lógico. "
+            
+        Variante 3: UFES_016 [1:0,51:1:51:0,25:0,26:.:*] -> [1, True]
+            A Biologia: No padrão universal da genômica, o ponto isolado (.) no campo GT significa "ausência de leitura" (missing data). 
+            O laser não conseguiu ler o DNA dessa amostra específica para essa variante.
+            A Tradução para Python: O Python não pode usar um caractere de texto (.) no meio de operações matemáticas. 
+            A biblioteca cyvcf2 foi programada para converter automaticamente qualquer ponto de genótipo para o número inteiro -1. 
+            Como o contexto da coluna era haploide (baseado na estrutura do cromossomo sendo lido), ele mantém a flag como True. 
+
+* Por que True?
+    Uma escolha da biblioteca(?)
+
+
+
+format returns a numpy array for the requested field.
+The numpy array shape will match the requested field. E.g. if the fields has number=3, then the shape will be (n_samples, 3).
+Parameters:
+field (str) – FORMAT field to get the values.
+Return type:
+numpy array.
+
+*estudar como salvar o GT de forma mais manipulável, atualmente como str não dá para fazer queries com partes dele
+    Cromossomos Autossômicos (1 ao 22): Como somos diploides, o arquivo virá com pares (0/0, 0/1, 1/1). 
+    O cyvcf2 vai te devolver listas de tamanho 3 de forma consistente.
+
+    Cromossomo X (A grande armadilha):
+    Aqui os seus dados vão misturar tamanhos na mesma linha!
+
+    Para as amostras femininas (XX), o VCF terá o texto 0/1. O Python vai receber listas de tamanho 3.
+
+    Para as amostras masculinas (XY), o VCF terá o texto 1. O Python vai receber listas de tamanho 2.
+
+    Como proteger o seu código?
+    É exatamente por isso que você não pode confiar em códigos estáticos do tipo "pegue o índice 0 e o índice 1". 
+    Se o seu script tentar acessar genotypes[i][1] em um paciente homem no cromossomo X, o Python vai explodir com um IndexError: list index out of range.
+
+    Lembra como nós guardamos a coluna GT inteira e transformamos ela em texto (.astype(str)) na hora de mandar para o SQLite? 
+    Essa foi a decisão arquitetônica mais segura que você poderia ter tomado!
+
+    Ao salvar a lista bruta inteira no banco (seja ela "[0, 1, False]" ou "[1, True]"), o seu código não quebra em nenhum cenário genético. 
+    Quando você for fazer a análise estatística puxando isso do banco de dados, você saberá interpretar que se a lista só tem 1 alelo no cromossomo X, 
+    aquela amostra obrigatoriamente pertence a um homem biológico.
