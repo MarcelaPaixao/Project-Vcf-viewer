@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visualizador VCF</title>
+</head>
+<body>
+    <h1>Variantes VCF Lidas do Banco</h1>
+    <table border="1">
+        <tr>
+            <th>Cromossomo</th>
+            <th>Posição</th>
+            <th>Identificador</th>
+        </tr>
+        {% for variant in vcf_data %}
+        <tr>
+            <!-- Substitua os atributos (.chrom, .pos, .id) pelos nomes exatos que o inspectdb gerou no seu models.py -->
+            <td>{{ variant.pos }}</td>
+            <td>{{ variant.ref }}</td>
+            <td>{{ variant.alt }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">Nenhuma variante VCF encontrada.</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

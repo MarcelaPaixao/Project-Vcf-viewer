@@ -57,6 +57,9 @@ dkms.conf
 # Database
 *.db
 
+# Virtual environment
+venv/*
+
 # Folders with sensitive data
-files/
-output/
+files/*
+output/*
