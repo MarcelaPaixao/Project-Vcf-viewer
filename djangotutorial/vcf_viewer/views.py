@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import FltrdCybersegChr21Amostras, FltrdCybersegChr21Variantes
 from django.contrib.auth.decorators import login_required
+from .filters import VarianteFilter
 
 @login_required
 def index(request):
@@ -14,7 +15,11 @@ def index(request):
     #     "variantes_data": variantes_data
     # }
     
-    vcf_data = FltrdCybersegChr21Variantes.objects.all()
-    context = {"vcf_data": vcf_data}
+    # vcf_data = FltrdCybersegChr21Variantes.objects.all()
+    # context = {"vcf_data": vcf_data}
+    # return render(request, "vcf_viewer/index.html", context)
+
+    f = VarianteFilter(request.GET, queryset=FltrdCybersegChr21Variantes.objects.all())
+    context = {"filter": f}
 
     return render(request, "vcf_viewer/index.html", context)

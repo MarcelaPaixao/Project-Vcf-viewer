@@ -10,6 +10,13 @@
 
 <body>
     <h1>Variantes VCF Lidas do Banco</h1>
+
+    <!-- O formulário é gerado automaticamente pelo filter.form -->
+    <form id="filtro-form" method="get">
+        {{ filter.form.as_p }} 
+        <button type="submit">Filtrar</button>
+    </form>
+
     <table border="1">
         <tr>
             <th>Cromossomo</th>
@@ -20,7 +27,7 @@
             <th>FILTER</th>
             <th>INFO_DP</th>
         </tr>
-        {% for variant in vcf_data %}
+        {% for variant in filter.qs %}
         <tr>
             <!-- Substitua os atributos (.chrom, .pos, .id) pelos nomes exatos que o inspectdb gerou no seu models.py -->
             <td>{{ variant.chrom }}</td>
