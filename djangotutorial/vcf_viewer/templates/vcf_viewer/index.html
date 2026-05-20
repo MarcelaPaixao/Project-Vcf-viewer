@@ -3,6 +3,11 @@
 <head>
     <title>Visualizador VCF</title>
 </head>
+
+{% if request.user.is_staff %}
+    <a href="{% url 'admin:index' %}">Painel Admin</a>
+{% endif %}
+
 <body>
     <h1>Variantes VCF Lidas do Banco</h1>
     <table border="1">

@@ -3,10 +3,17 @@
 *O sqlite só está aguentando exibir até 400 colunas
 
 #############   MYSITE  #################
-# página de login -> Editar para redirecionar para uma página de home por exemplo
+# filtros nas colunas!!!!!!!!!!!!!!!!!
+# página de login -> Editar para redirecionar para uma página de home por exemplo!!!!
+# tabela de amostras!!!!!!!!!
 # limitar exibição tabelas (exemplo: BOCA -> puxa parao lado e para baixo)
-# página de autenticação
-# filtros nas colunas
+# conexão das duas tabelas
+# página de cadastro
+
+# redirecionar do login para uma pagina home(tipo a admin) que vai ter as opçoes de tabelas para visualização
+
+# mudar a forma  de acesso ao banco? substituir banco legado por manipulação completo no django????
+# mudança para postgres ou mySql
 
 #########################################
 
