@@ -1,0 +1,14 @@
+{% load static %}
+<html lang="pt-br">
+<head>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <!-- Imagem de logo comum a todas as páginas -->
+    <!-- <img src="{% static 'images/sitelogo.png' %}" alt="Logo"> -->
+
+    <!-- Espaço onde entrará o conteúdo específico de cada página -->
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

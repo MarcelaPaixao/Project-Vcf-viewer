@@ -7,9 +7,26 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
+class FltrdCybersegChr21Variantes(models.Model):
+    # muitas linhas! verificar se representa problemapelofato deestar como inteiro!!!!!!
+    id_variante = models.IntegerField(db_column='ID_VARIANTE', blank=True, null=False, primary_key=True)  # Field name made lowercase.
+    chrom = models.TextField(db_column='CHROM', blank=True, null=True)  # Field name made lowercase.
+    pos = models.TextField(db_column='POS', blank=True, null=True)  # Field name made lowercase.
+    ref = models.TextField(db_column='REF', blank=True, null=True)  # Field name made lowercase.
+    alt = models.TextField(db_column='ALT', blank=True, null=True)  # Field name made lowercase.
+    # qual = models.TextField(db_column='QUAL', blank=True, null=True)  # Field name made lowercase.
+    qual = models.FloatField(db_column='QUAL', blank=True, null=True)  # Field name made lowercase.
+    filter = models.TextField(db_column='FILTER', blank=True, null=True)  # Field name made lowercase.
+    info_dp = models.TextField(db_column='INFO_DP', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Fltrd_Cyberseg_chr21_Variantes'
+
 
 class FltrdCybersegChr21Amostras(models.Model):
-    id_variante = models.IntegerField(db_column='ID_VARIANTE', blank=True, null=True)  # Field name made lowercase.
+    # id_variante = models.IntegerField(db_column='ID_VARIANTE', blank=True, null=True)  # Field name made lowercase.
+    id_variante = models.ForeignKey(FltrdCybersegChr21Variantes, models.DO_NOTHING, db_column='ID_VARIANTE', blank=True, null=True)  # Field name made lowercase.
     amostra = models.TextField(db_column='AMOSTRA', blank=True, null=True)  # Field name made lowercase.
     gt = models.TextField(db_column='GT', blank=True, null=True)  # Field name made lowercase.
     af = models.FloatField(db_column='AF', blank=True, null=True)  # Field name made lowercase.
@@ -18,24 +35,6 @@ class FltrdCybersegChr21Amostras(models.Model):
     class Meta:
         managed = False
         db_table = 'Fltrd_Cyberseg_chr21_Amostras'
-
-
-class FltrdCybersegChr21Variantes(models.Model):
-    # muitas linhas! verificar se representa problemapelofato deestar como inteiro!!!!!!
-    id_variante = models.IntegerField(db_column='ID_VARIANTE', blank=True, null=True)  # Field name made lowercase.
-    chrom = models.TextField(db_column='CHROM', blank=True, null=True)  # Field name made lowercase.
-    pos = models.TextField(db_column='POS', blank=True, null=True)  # Field name made lowercase.
-    ref = models.TextField(db_column='REF', blank=True, null=True)  # Field name made lowercase.
-    alt = models.TextField(db_column='ALT', blank=True, null=True)  # Field name made lowercase.
-    # qual deveria ser float!!!!!!!
-    qual = models.TextField(db_column='QUAL', blank=True, null=True)  # Field name made lowercase.
-    filter = models.TextField(db_column='FILTER', blank=True, null=True)  # Field name made lowercase.
-    info_dp = models.TextField(db_column='INFO_DP', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'Fltrd_Cyberseg_chr21_Variantes'
-
 
 # class AuthGroup(models.Model):
 #     name = models.CharField(unique=True, max_length=150)

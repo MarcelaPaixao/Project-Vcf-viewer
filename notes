@@ -2,6 +2,14 @@
 *Sugestão de melhoria: para arquivos muitos grandes, vale a pena fazer o processamento com chunks
 *O sqlite só está aguentando exibir até 400 colunas
 
+#############   MYSITE  #################
+# página de login -> Editar para redirecionar para uma página de home por exemplo
+# limitar exibição tabelas (exemplo: BOCA -> puxa parao lado e para baixo)
+# página de autenticação
+# filtros nas colunas
+
+#########################################
+
 
 * O que significa cada itm da tupla GT retornada pela cyvcf2?
     " genotypes returns a list for each sample Indicating the allele and phasing.
