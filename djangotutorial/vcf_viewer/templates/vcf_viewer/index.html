@@ -12,9 +12,36 @@
     <h1>Variantes VCF Lidas do Banco</h1>
 
     <!-- O formulário é gerado automaticamente pelo filter.form -->
-    <form id="filtro-form" method="get">
+    <!-- <form id="filtro-form" method="get">
         {{ filter.form.as_p }} 
         <button type="submit">Filtrar</button>
+    </form> -->
+    <!-- Adicionamos um estilo CSS embutido com Flexbox (display: flex) para alinhar lado a lado -->
+    <form id="filtro-form" method="get" 
+        hx-get="{% url 'vcf_viewer:index' %}" 
+        hx-target="#tabela-resultados" 
+        hx-select="#tabela-resultados"
+        hx-trigger="input changed delay:500ms"
+        style="display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; margin-bottom: 20px;">
+        
+        <!-- Iteramos sobre cada campo do formulário -->
+        {% for field in filter.form %}
+            <div class="fieldWrapper" style="display: flex; flex-direction: column;">
+                <!-- Exibe os erros de validação do campo, se houver -->
+                {{ field.errors }}
+                
+                <!-- Exibe o texto (Ex: 'Cromossomo:') -->
+                {{ field.label_tag }} 
+                
+                <!-- Exibe a caixa de texto ou select correspondente -->
+                {{ field }} 
+            </div>
+        {% endfor %}
+        
+        <!-- Opcional: Um botão para limpar os filtros pode ser útil aqui -->
+        <div>
+            <a href="{% url 'vcf_viewer:index' %}" style="text-decoration: none;">Limpar Filtros</a>
+        </div>
     </form>
 
     <table border="1">
