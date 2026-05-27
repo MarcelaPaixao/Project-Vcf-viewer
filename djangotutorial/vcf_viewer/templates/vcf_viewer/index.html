@@ -2,72 +2,211 @@
 <html>
 <head>
     <title>Visualizador VCF</title>
+    <style>
+        .table-wrapper {
+            max-width: 100%;
+            overflow-x: auto; /* Cria barra de rolagem horizontal se a tabela for maior que o monitor */
+            height: 100vh;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            table-layout: fixed; /* Força colunas a terem tamanhos definidos */
+            border-collapse: collapse;
+        }
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background-color: #ffffff; /* Fundo branco obrigatório */
+        }
+        /* Garantia de borda inferior no cabeçalho fixo */
+        thead th {
+            border-bottom: 1px solid #000;
+        }
+        th, td {
+            padding: 8px;
+            word-wrap: break-word; /* Quebra palavras gigantes (ex: sequências ALT muito longas) */
+            max-width: 200px; /* Limite de segurança para as células */
+        }
+        .filter-input input, .filter-input select {
+            width: 100%; /* Faz a caixa de busca ocupar toda a largura da coluna */
+            box-sizing: border-box;
+        }
+
+        /* O container que segura o input e o ícone juntos */
+        .filter-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        
+        /* O input de texto: ganha um "enchimento" na direita para o texto não encostar no ícone */
+        .filter-wrapper input[type="text"], 
+        .filter-wrapper input[type="number"] {
+            width: 100%;
+            padding-right: 25px; /* Espaço reservado para o ícone */
+            box-sizing: border-box;
+        }
+
+        /* Esconde a checkbox feia original gerada pelo Django */
+        .hidden-checkbox {
+            display: none;
+        }
+
+        /* O visual do nosso ícone/botão clicável */
+        .icon-btn {
+            position: absolute;
+            right: 5px; /* Fixa no canto direito */
+            cursor: pointer;
+            opacity: 0.4; /* Fica clarinho quando desativado */
+            font-size: 14px;
+            user-select: none;
+            transition: 0.2s;
+        }
+
+        /* Quando passamos o mouse */
+        .icon-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* O TRUQUE DE MESTRE CSS: 
+           Se a checkbox invisível estiver (:checked), altera o ícone que vem logo depois dela (+) */
+        .hidden-checkbox:checked + .icon-btn {
+            opacity: 1; /* Fica 100% visível */
+            filter: drop-shadow(0px 0px 2px rgba(0, 123, 255, 0.8)); /* Dá um brilho azul */
+        }
+    </style>
 </head>
 
-{% if request.user.is_staff %}
-    <a href="{% url 'admin:index' %}">Painel Admin</a>
-{% endif %}
-
 <body>
+    {% if request.user.is_staff %}
+        <a href="{% url 'admin:index' %}">Painel Admin</a>
+    {% endif %}
+
     <h1>Variantes VCF Lidas do Banco</h1>
 
-    <!-- O formulário é gerado automaticamente pelo filter.form -->
-    <!-- <form id="filtro-form" method="get">
-        {{ filter.form.as_p }} 
-        <button type="submit">Filtrar</button>
-    </form> -->
-    <!-- Adicionamos um estilo CSS embutido com Flexbox (display: flex) para alinhar lado a lado -->
-    <form id="filtro-form" method="get" 
-        hx-get="{% url 'vcf_viewer:index' %}" 
-        hx-target="#tabela-resultados" 
-        hx-select="#tabela-resultados"
-        hx-trigger="input changed delay:500ms"
-        style="display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; margin-bottom: 20px;">
+    <form id="filtro-form" method="get">
+        <button type="submit" style="margin-bottom: 15px;">Aplicar Filtros</button>
         
-        <!-- Iteramos sobre cada campo do formulário -->
-        {% for field in filter.form %}
-            <div class="fieldWrapper" style="display: flex; flex-direction: column;">
-                <!-- Exibe os erros de validação do campo, se houver -->
-                {{ field.errors }}
-                
-                <!-- Exibe o texto (Ex: 'Cromossomo:') -->
-                {{ field.label_tag }} 
-                
-                <!-- Exibe a caixa de texto ou select correspondente -->
-                {{ field }} 
-            </div>
-        {% endfor %}
-        
-        <!-- Opcional: Um botão para limpar os filtros pode ser útil aqui -->
-        <div>
-            <a href="{% url 'vcf_viewer:index' %}" style="text-decoration: none;">Limpar Filtros</a>
+        <div class="table-wrapper">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Cromossomo</th>
+                        <th>Posição</th>
+                        <th>REF</th>
+                        <th>ALT</th>
+                        <th>QUAL</th>
+                        <th>FILTER</th>
+                        <th>INFO_DP</th>
+                        <th>INFO_GT</th>
+                    </tr>
+                    <!-- <tr class="filter-input">
+                        <th>{{ filter.form.chrom }}</th>
+                        <th>{{ filter.form.pos }}</th>
+                        <th>{{ filter.form.ref }}</th>
+                        <th>{{ filter.form.alt }}</th>
+                        <th>{{ filter.form.qual }}</th>
+                        <th>{{ filter.form.filter }}</th>
+                        <th>{{ filter.form.info_dp }}</th>
+                        <th>{{ filter.form.info_gt }}</th>
+                    </tr> -->
+                    <tr class="filter-input">
+                        <th>
+                            <div class="filter-wrapper">
+                                {{ filter.form.chrom }} 
+                                {{ filter.form.chrom__notnull }} 
+                                
+                                <label for="id_chrom__notnull" class="icon-btn" title="Ocultar Vazios">
+                                    🚫
+                                </label>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-wrapper">
+                                {{ filter.form.pos }} 
+                                {{ filter.form.pos__notnull }} 
+                                <label for="id_pos__notnull" class="icon-btn" title="Ocultar Vazios">
+                                    🚫
+                                </label>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-wrapper">
+                                {{ filter.form.ref }} 
+                                {{ filter.form.ref__notnull }} 
+                                <label for="id_ref__notnull" class="icon-btn" title="Ocultar Vazios">
+                                    🚫
+                                </label>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-wrapper">
+                                {{ filter.form.alt }} 
+                                {{ filter.form.alt__notnull }} 
+                                <label for="id_alt__notnull" class="icon-btn" title="Ocultar Vazios">
+                                    🚫
+                                </label>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-wrapper">
+                                {{ filter.form.qual }} 
+                                {{ filter.form.qual__notnull }} 
+                                <label for="id_qual__notnull" class="icon-btn" title="Ocultar Vazios">
+                                    🚫
+                                </label>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-wrapper">
+                                {{ filter.form.filter }} 
+                                {{ filter.form.filter__notnull }} 
+                                <label for="id_filter__notnull" class="icon-btn" title="Ocultar Vazios">
+                                    🚫
+                                </label>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-wrapper">
+                                {{ filter.form.info_dp }} 
+                                {{ filter.form.info_dp__notnull }} 
+                                <label for="id_info_dp__notnull" class="icon-btn" title="Ocultar Vazios">
+                                    🚫
+                                </label>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="filter-wrapper">
+                                {{ filter.form.info_gt }} 
+                                {{ filter.form.info_gt__notnull }} 
+                                <label for="id_info_gt__notnull" class="icon-btn" title="Ocultar Vazios">
+                                    🚫
+                                </label>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for variant in filter.qs %}
+                    <tr>
+                        <td>{{ variant.chrom }}</td>
+                        <td>{{ variant.pos }}</td>
+                        <td>{{ variant.ref }}</td>
+                        <td>{{ variant.alt }}</td>
+                        <td>{{ variant.qual }}</td>
+                        <td>{{ variant.filter }}</td>
+                        <td>{{ variant.info_dp }}</td>
+                        <td>{{ variant.info_gt }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="7" style="text-align: center;">Nenhuma variante VCF encontrada.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </form>
-
-    <table border="1">
-        <tr>
-            <th>Cromossomo</th>
-            <th>Posição</th>
-            <th>REF</th>
-            <th>ALT</th>
-            <th>QUAL</th>
-            <th>FILTER</th>
-            <th>INFO_DP</th>
-        </tr>
-        {% for variant in filter.qs %}
-        <tr>
-            <!-- Substitua os atributos (.chrom, .pos, .id) pelos nomes exatos que o inspectdb gerou no seu models.py -->
-            <td>{{ variant.chrom }}</td>
-            <td>{{ variant.pos }}</td>
-            <td>{{ variant.ref }}</td>
-            <td>{{ variant.alt }}</td>
-            <td>{{ variant.qual }}</td>
-            <td>{{ variant.filter }}</td>
-            <td>{{ variant.info_dp }}</td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="3">Nenhuma variante VCF encontrada.</td></tr>
-        {% endfor %}
-    </table>
 </body>
 </html>
