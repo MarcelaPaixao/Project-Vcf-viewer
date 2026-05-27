@@ -2,7 +2,7 @@
 *Sugestão de melhoria: para arquivos muitos grandes, vale a pena fazer o processamento com chunks
 *O sqlite só está aguentando exibir até 400 colunas
 
-#############   MYSITE  #################
+#############   MYSITE  #######################################################################################
 # filtros nas colunas!!!!!!!!!!!!!!!!!
 # PERMISSÕES READ/WRITE!!!!
 # página de login -> Editar para redirecionar para uma página de home por exemplo!!!!
@@ -16,7 +16,7 @@
 # mudar a forma  de acesso ao banco? substituir banco legado por manipulação completo no django????
 # mudança para postgres ou mySql
 
-#########################################
+#################################################################################################################
 
 
 * O que significa cada itm da tupla GT retornada pela cyvcf2?
