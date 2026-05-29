@@ -20,6 +20,7 @@ def index(request):
     # return render(request, "vcf_viewer/index.html", context)
 
     f = VarianteFilter(request.GET, queryset=FltrdCybersegChr21Variantes.objects.all())
+    # qtd_lines = 
     context = {"filter": f}
 
     return render(request, "vcf_viewer/index.html", context)

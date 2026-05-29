@@ -3,18 +3,23 @@
 *O sqlite só está aguentando exibir até 400 colunas
 
 #############   MYSITE  #######################################################################################
-# filtros nas colunas!!!!!!!!!!!!!!!!!
+# filtros nas colunas (ok)
+# exibir a qtd de resultados encontrados (ok)
+# redirecionar do login para uma pagina home(tipo a admin) que vai ter as opçoes de tabelas para visualização
+# tabela de amostras !!!!!!!!!!!!!!!
+# conexão das duas tabelas 
 # PERMISSÕES READ/WRITE!!!!
 # página de login -> Editar para redirecionar para uma página de home por exemplo!!!!
-# tabela de amostras!!!!!!!!!
-# limitar exibição tabelas (exemplo: BOCA -> puxa parao lado e para baixo)
-# conexão das duas tabelas
+# limitar exibição tabelas (exemplo: BOCA -> puxa parao lado e para baixo) (ok parcial)
 # página de cadastro
 
-# redirecionar do login para uma pagina home(tipo a admin) que vai ter as opçoes de tabelas para visualização
 
 # mudar a forma  de acesso ao banco? substituir banco legado por manipulação completo no django????
 # mudança para postgres ou mySql
+
+# adicionar coluna de ID davariante, e tornar issoum link para as aostras referente a ela??? (possibilidade
+de isso ficar um ccaos de muitas tabelas para gerenciar). Pensar melhor sobre essa conexão 
+( a ideia é ser melhor que a da extensão de sqlite do vscode)
 
 #################################################################################################################
 

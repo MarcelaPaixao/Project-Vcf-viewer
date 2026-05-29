@@ -1,81 +1,141 @@
 from django import forms
 import django_filters
 from .models import *
-
-#non_empty do filter deve ser o pass ao invés de null
+from django.db.models import Q
 
 class VarianteFilter(django_filters.FilterSet):
     def filter_not_null(self, queryset, name, value):
         # Só aplica o filtro se a caixa estiver marcada (value == True)
         if value:
-            # Filtra o banco para trazer apenas onde o campo não é nulo
-            return queryset.filter(**{f"{name}__isnull": False})
-        # Se a caixa não estiver marcada, devolve a tabela inteira sem filtrar
+            lookup = '__'.join([name, 'isnull'])
+            return queryset.filter(**{lookup:False})
+        return queryset
+    
+    def filter_not_pass(self, queryset, name, value):
+        if value:
+            lookup_null_word = '__'.join([name, 'exact'])
+            lookup = '__'.join([name, 'isnull'])
+            return queryset.exclude(
+                Q(**{lookup:True}) |  Q(**{lookup_null_word: "PASS"})
+            )
+        return queryset
+    
+    def filter_exact_toggle(self, queryset, name, value):
+        if value:
+            search_term = self.data.get(name)
+            if search_term:
+                lookup = '__'.join([name, 'exact'])
+                return queryset.filter(**{lookup:search_term})
         return queryset
 
-    id_var__notnull = django_filters.BooleanFilter(
-        field_name='id_variante', 
-        method='filter_not_null', 
-        widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
-    )
-    id_var__exact = django_filters.NumberFilter(field_name='id_variante', lookup_expr='exact')
+    # id_var__notnull = django_filters.BooleanFilter(
+    #     field_name='id_variante', 
+    #     method='filter_not_null', 
+    #     widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    # )
+
+    # id_var__exact = django_filters.BooleanFilter(
+    #     field_name='id_variante', 
+    #     method='filter_exact_toggle', 
+    #     widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    # )
 
     chrom__notnull = django_filters.BooleanFilter(
         field_name='chrom', 
         method='filter_not_null', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    chrom__exact = django_filters.CharFilter(field_name='chrom', lookup_expr='exact')
+    
+    chrom__exact = django_filters.BooleanFilter(
+        field_name='chrom', 
+        method='filter_exact_toggle', 
+        widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    )
 
     pos__notnull = django_filters.BooleanFilter(
         field_name='pos', 
         method='filter_not_null', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    pos__exact = django_filters.NumberFilter(field_name='pos', lookup_expr='exact')
+    pos__exact = django_filters.BooleanFilter(
+        field_name='pos', 
+        method='filter_exact_toggle', 
+        widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    )
     
     ref__notnull = django_filters.BooleanFilter(
         field_name='ref', 
         method='filter_not_null', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    ref__exact = django_filters.CharFilter(field_name='ref', lookup_expr='exact')
+    
+    ref__exact = django_filters.BooleanFilter(
+        field_name='ref', 
+        method='filter_exact_toggle', 
+        widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    )
 
     alt__notnull = django_filters.BooleanFilter(
         field_name='alt', 
         method='filter_not_null', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    alt__exact = django_filters.CharFilter(field_name='alt', lookup_expr='exact')
+    
+    alt__exact = django_filters.BooleanFilter(
+        field_name='alt', 
+        method='filter_exact_toggle', 
+        widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    )
 
-    qual__gte = django_filters.NumberFilter(field_name='qual', lookup_expr='gte')
+    qual__gte = django_filters.NumberFilter(field_name='qual', lookup_expr='gte') ###########################OLHAR!!!
     qual__notnull = django_filters.BooleanFilter(
         field_name='qual', 
         method='filter_not_null', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    qual__exact = django_filters.NumberFilter(field_name='qual', lookup_expr='exact')
+    
+    qual__exact = django_filters.BooleanFilter(
+        field_name='qual', 
+        method='filter_exact_toggle', 
+        widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    )
 
     filter__notnull = django_filters.BooleanFilter(
         field_name='filter', 
-        method='filter_not_null', 
+        # method='filter_not_null',
+        method='filter_not_pass',
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    filter__exact = django_filters.CharFilter(field_name='filter', lookup_expr='exact')
+    
+    filter__exact = django_filters.BooleanFilter(
+        field_name='filter', 
+        method='filter_exact_toggle', 
+        widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    )
 
     info_dp__notnull = django_filters.BooleanFilter(
         field_name='info_dp', 
         method='filter_not_null', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    info_dp__exact = django_filters.CharFilter(field_name='info_dp', lookup_expr='exact')
+    
+    info_db__exact = django_filters.BooleanFilter(
+        field_name='info_db', 
+        method='filter_exact_toggle', 
+        widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    )
 
     info_gt__notnull = django_filters.BooleanFilter(
         field_name='info_gt', 
         method='filter_not_null', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    info_gt__exact = django_filters.CharFilter(field_name='info_gt', lookup_expr='exact')
+    
+    info_gt__exact = django_filters.BooleanFilter(
+        field_name='info_gt', 
+        method='filter_exact_toggle', 
+        widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    )
 
 
     class Meta:

@@ -18,7 +18,7 @@
             position: sticky;
             top: 0;
             z-index: 2;
-            background-color: #ffffff; /* Fundo branco obrigatório */
+            background-color: #ffffff;
         }
         /* Garantia de borda inferior no cabeçalho fixo */
         thead th {
@@ -30,7 +30,7 @@
             max-width: 200px; /* Limite de segurança para as células */
         }
         .filter-input input, .filter-input select {
-            width: 100%; /* Faz a caixa de busca ocupar toda a largura da coluna */
+            width: 100%;
             box-sizing: border-box;
         }
 
@@ -45,23 +45,25 @@
         /* O input de texto: ganha um "enchimento" na direita para o texto não encostar no ícone */
         .filter-wrapper input[type="text"], 
         .filter-wrapper input[type="number"] {
+            flex-grow: 1;
             width: 100%;
-            padding-right: 25px; /* Espaço reservado para o ícone */
+            padding-right: 35px; /* Espaço reservado para o ícone */
             box-sizing: border-box;
         }
 
         /* Esconde a checkbox feia original gerada pelo Django */
-        .hidden-checkbox {
-            display: none;
+        .hidden-checkbox,
+        .filter-wrapper select {
+            display: none !important;
         }
 
         /* O visual do nosso ícone/botão clicável */
         .icon-btn {
             position: absolute;
-            right: 5px; /* Fixa no canto direito */
+            right: 3px; /* Fixa no canto direito */
             cursor: pointer;
-            opacity: 0.4; /* Fica clarinho quando desativado */
-            font-size: 14px;
+            opacity: 0.4; 
+            font-size: 12px;
             user-select: none;
             transition: 0.2s;
         }
@@ -70,6 +72,9 @@
         .icon-btn:hover {
             opacity: 0.8;
         }
+
+        .btn-null { right: 3px; }
+        .btn-exact { right: 20px; }
 
         /* O TRUQUE DE MESTRE CSS: 
            Se a checkbox invisível estiver (:checked), altera o ícone que vem logo depois dela (+) */
@@ -103,23 +108,19 @@
                         <th>INFO_DP</th>
                         <th>INFO_GT</th>
                     </tr>
-                    <!-- <tr class="filter-input">
-                        <th>{{ filter.form.chrom }}</th>
-                        <th>{{ filter.form.pos }}</th>
-                        <th>{{ filter.form.ref }}</th>
-                        <th>{{ filter.form.alt }}</th>
-                        <th>{{ filter.form.qual }}</th>
-                        <th>{{ filter.form.filter }}</th>
-                        <th>{{ filter.form.info_dp }}</th>
-                        <th>{{ filter.form.info_gt }}</th>
-                    </tr> -->
+
                     <tr class="filter-input">
                         <th>
                             <div class="filter-wrapper">
                                 {{ filter.form.chrom }} 
-                                {{ filter.form.chrom__notnull }} 
+
+                                {{ filter.form.chrom__exact }} 
+                                <label for="id_chrom__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                    📄
+                                </label>
                                 
-                                <label for="id_chrom__notnull" class="icon-btn" title="Ocultar Vazios">
+                                {{ filter.form.chrom__notnull }} 
+                                <label for="id_chrom__notnull" class="icon-btn btn-null" title="Ocultar Vazios">
                                     🚫
                                 </label>
                             </div>
@@ -127,6 +128,12 @@
                         <th>
                             <div class="filter-wrapper">
                                 {{ filter.form.pos }} 
+                                
+                                {{ filter.form.pos__exact }} 
+                                <label for="id_pos__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                    📄
+                                </label>
+
                                 {{ filter.form.pos__notnull }} 
                                 <label for="id_pos__notnull" class="icon-btn" title="Ocultar Vazios">
                                     🚫
@@ -136,6 +143,12 @@
                         <th>
                             <div class="filter-wrapper">
                                 {{ filter.form.ref }} 
+                                
+                                {{ filter.form.ref__exact }} 
+                                <label for="id_ref__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                    📄
+                                </label>
+
                                 {{ filter.form.ref__notnull }} 
                                 <label for="id_ref__notnull" class="icon-btn" title="Ocultar Vazios">
                                     🚫
@@ -145,6 +158,12 @@
                         <th>
                             <div class="filter-wrapper">
                                 {{ filter.form.alt }} 
+
+                                {{ filter.form.alt__exact }} 
+                                <label for="id_alt__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                    📄
+                                </label>
+
                                 {{ filter.form.alt__notnull }} 
                                 <label for="id_alt__notnull" class="icon-btn" title="Ocultar Vazios">
                                     🚫
@@ -154,6 +173,12 @@
                         <th>
                             <div class="filter-wrapper">
                                 {{ filter.form.qual }} 
+
+                                {{ filter.form.qual__exact }} 
+                                <label for="id_qual__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                    📄
+                                </label>
+
                                 {{ filter.form.qual__notnull }} 
                                 <label for="id_qual__notnull" class="icon-btn" title="Ocultar Vazios">
                                     🚫
@@ -163,6 +188,12 @@
                         <th>
                             <div class="filter-wrapper">
                                 {{ filter.form.filter }} 
+
+                                {{ filter.form.filter__exact }} 
+                                <label for="id_filter__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                    📄
+                                </label>
+
                                 {{ filter.form.filter__notnull }} 
                                 <label for="id_filter__notnull" class="icon-btn" title="Ocultar Vazios">
                                     🚫
@@ -172,6 +203,12 @@
                         <th>
                             <div class="filter-wrapper">
                                 {{ filter.form.info_dp }} 
+
+                                {{ filter.form.info_dp__exact }} 
+                                <label for="id_info_dp__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                    📄
+                                </label>
+
                                 {{ filter.form.info_dp__notnull }} 
                                 <label for="id_info_dp__notnull" class="icon-btn" title="Ocultar Vazios">
                                     🚫
@@ -181,6 +218,12 @@
                         <th>
                             <div class="filter-wrapper">
                                 {{ filter.form.info_gt }} 
+
+                                {{ filter.form.info_gt__exact }} 
+                                <label for="id_info_gt__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                    📄
+                                </label>
+
                                 {{ filter.form.info_gt__notnull }} 
                                 <label for="id_info_gt__notnull" class="icon-btn" title="Ocultar Vazios">
                                     🚫
@@ -190,6 +233,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr> {{filter.qs.count }} resultados </tr>
                     {% for variant in filter.qs %}
                     <tr>
                         <td>{{ variant.chrom }}</td>
@@ -201,6 +245,7 @@
                         <td>{{ variant.info_dp }}</td>
                         <td>{{ variant.info_gt }}</td>
                     </tr>
+                    
                     {% empty %}
                     <tr><td colspan="7" style="text-align: center;">Nenhuma variante VCF encontrada.</td></tr>
                     {% endfor %}
