@@ -4,5 +4,6 @@ from . import views
 app_name = 'vcf_viewer'
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("variantes", views.variantes, name="variantes"),
+    path("amostras", views.amostras, name="amostras"),
 ]
