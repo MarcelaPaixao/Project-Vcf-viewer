@@ -1,0 +1,11 @@
+superuser:
+- marcela/marcela@email.com/teste123
+
+staff:
+- fulano/./staff111
+
+common_users:
+- caramelo/./notstaff111
+
+- conectar o login normal ao admin
+- conectar o admin ao  mysite 

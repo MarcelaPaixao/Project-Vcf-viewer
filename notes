@@ -3,15 +3,25 @@
 *O sqlite só está aguentando exibir até 400 colunas
 
 #############   MYSITE  #######################################################################################
+
+## cosultas exemplo para demonstrar ( a partir dessse relacionamento enter as tabelas)
+## ligar tabelas (ver tudosobre uma variante por ex)
+## PRAZO:10/06 !!!!!!!!!
+## exemplos de queries para demonstração
+## gerar tela login com usuario
+## toy example(diferenciação  para o que exibir para cada tipo de usuario, a partir desse ralacionamento)
+
 # filtros nas colunas (ok)
 # exibir a qtd de resultados encontrados (ok)
 # redirecionar do login para uma pagina home(tipo a admin) que vai ter as opçoes de tabelas para visualização
 # tabela de amostras !!!!!!!!!!!!!!!
 # conexão das duas tabelas 
+# ver de unir os html, muita repetição de codigo!!
 # PERMISSÕES READ/WRITE!!!!
 # página de login -> Editar para redirecionar para uma página de home por exemplo!!!!
 # limitar exibição tabelas (exemplo: BOCA -> puxa parao lado e para baixo) (ok parcial)
 # página de cadastro
+
 
 
 # mudar a forma  de acesso ao banco? substituir banco legado por manipulação completo no django????

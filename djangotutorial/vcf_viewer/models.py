@@ -25,8 +25,10 @@ class FltrdCybersegChr21Variantes(models.Model):
         db_table = 'Fltrd_Cyberseg_chr21_Variantes'
 
 class FltrdCybersegChr21Amostras(models.Model):
-    id_variante = models.ForeignKey(FltrdCybersegChr21Variantes, models.DO_NOTHING, db_column='ID_VARIANTE', blank=True, null=True)  # Field name made lowercase.
-    # id_variante = models.IntegerField(db_column='ID_VARIANTE', blank=True, null=True)  # Field name made lowercase.
+    id = models.IntegerField(primary_key=True, db_column='rowid')
+
+    # id_variante = models.ForeignKey(FltrdCybersegChr21Variantes, models.DO_NOTHING, db_column='ID_VARIANTE', blank=True, null=True)  # Field name made lowercase.
+    id_variante = models.IntegerField(db_column='ID_VARIANTE', blank=True, null=True)  # Field name made lowercase.
     amostra = models.TextField(db_column='AMOSTRA', blank=True, null=True)  # Field name made lowercase.
     gt = models.TextField(db_column='GT', blank=True, null=True)  # Field name made lowercase.
     af = models.FloatField(db_column='AF', blank=True, null=True)  # Field name made lowercase.
