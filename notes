@@ -8,6 +8,10 @@
 # que vai ter todas as infos sobre essa variante especifica e as amostras relacionadas a ela
 # talvez fazer uma para as amostras tbm? nao sei se faz sentido, pois na propria pesquisa ja vemos tudo isso
 
+
+fazer o login ser a url base, e logo em seguida direciona para a home
+esse login dentro de accounts é o que?
+
 ## ligar tabelas (ver tudosobre uma variante por ex) !!!!!!!!!!!!
 ## fazer a pagina da variante ligada as amostras dela
 ## cosultas exemplo para demonstrar ( a partir dessse relacionamento enter as tabelas)
@@ -21,9 +25,9 @@
 # redirecionar do login para uma pagina home(tipo a admin) que vai ter as opçoes de tabelas para visualização
 # tabela de amostras (ok)
 # limitar exibição tabelas (ok)
+# página de login -> Editar para redirecionar para uma página de home por exemplo!!!!
 # conexão das duas tabelas 
 # PERMISSÕES READ/WRITE!!!!
-# página de login -> Editar para redirecionar para uma página de home por exemplo!!!!
 # página de cadastro
 # ver de unir os html, muita repetição de codigo!!
 

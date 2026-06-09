@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .btn-container {
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 10px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px;
+            display: inline-block;
+        }
+        .btn-variantes {
+            background-color: #007bff;
+        }
+        .btn-amostras {
+            background-color: #28a745;
+        }
+        .btn-admin {
+            background-color: #585e59;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Bem-vindo ao Visualizador VCF</h1>
+    <p>Selecione a base de dados que deseja explorar:</p>
+
+    <div class="btn-container">
+        <a href="{% url 'vcf_viewer:variantes' %}" class="btn btn-variantes">
+            Tabela de Variantes
+        </a>
+        
+        <a href="{% url 'vcf_viewer:amostras' %}" class="btn btn-amostras">
+            Tabela de Amostras
+        </a>
+
+        <!-- Futuramente esse painel admin vai ser algo customizado, para lidar com permissões e etc -->
+         {% if request.user.is_staff %}
+            <a href="{% url 'admin:index' %}" class="btn btn-admin">
+                Painel Admin
+            </a>
+        {% endif %}
+    </div>
+
+</body>
+</html>
