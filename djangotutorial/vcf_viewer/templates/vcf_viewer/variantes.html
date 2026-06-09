@@ -94,6 +94,12 @@
 
     <form id="filtro-form" method="get">
         <button type="submit" style="margin-bottom: 15px;">Aplicar Filtros</button>
+
+        <tr> 
+            <td style="font-weight: bold;">
+                {{ vcf_data.paginator.count }} resultados encontrados
+            </td> 
+        </tr>
         
         <div class="table-wrapper">
             <table border="1">
@@ -232,9 +238,10 @@
                         </th>
                     </tr>
                 </thead>
+                
                 <tbody>
-                    <tr> {{filter.qs.count }} resultados </tr>
-                    {% for variant in filter.qs %}
+                    
+                    {% for variant in vcf_data %}
                     <tr>
                         <td>{{ variant.chrom }}</td>
                         <td>{{ variant.pos }}</td>
@@ -251,6 +258,23 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        <div style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border: 1px solid #ddd; display: inline-block;">
+            <span class="step-links">
+                {% if vcf_data.has_previous %}
+                    <a href="?{{ query_params }}&page=1">&laquo; Primeira</a>
+                    <a href="?{{ query_params }}&page={{ vcf_data.previous_page_number }}">Anterior</a>
+                {% endif %}
+
+                <span class="current" style="margin: 0 10px; font-weight: bold;">
+                    Página {{ vcf_data.number }} de {{ vcf_data.paginator.num_pages }}
+                </span>
+
+                {% if vcf_data.has_next %}
+                    <a href="?{{ query_params }}&page={{ vcf_data.next_page_number }}">Próxima</a>
+                    <a href="?{{ query_params }}&page={{ vcf_data.paginator.num_pages }}">Última &raquo;</a>
+                {% endif %}
+            </span>
         </div>
     </form>
 </body>
