@@ -19,8 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('vcf/', include('vcf_viewer.urls')),
-    #substituir por uma pagina home
-    path("", include("vcf_viewer.urls")),
+    path('', include("vcf_viewer.urls")),
     path('accounts/', include('django.contrib.auth.urls')),
 ]

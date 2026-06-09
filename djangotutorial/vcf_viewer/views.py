@@ -69,5 +69,9 @@ def amostras(request):
         
     return render(request, 'vcf_viewer/amostras.html', context)
 
+@login_required
+def home(request):
+    return render(request, 'home.html')
+
     # fazer um para o id davariante associado ever de transforma em um linkpara direcionar para outra página 
     # que vai ter todas as infos sobre essa variante especifica e as amostras relacionadas a ela
