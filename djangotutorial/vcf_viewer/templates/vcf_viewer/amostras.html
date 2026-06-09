@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visualizador VCF</title>
+    <style>
+        .table-wrapper {
+            max-width: 100%;
+            overflow-x: auto; /* Cria barra de rolagem horizontal se a tabela for maior que o monitor */
+            height: 100vh;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            table-layout: fixed; /* Força colunas a terem tamanhos definidos */
+            border-collapse: collapse;
+        }
+        thead {
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background-color: #ffffff;
+        }
+        /* Garantia de borda inferior no cabeçalho fixo */
+        thead th {
+            border-bottom: 1px solid #000;
+        }
+        th, td {
+            padding: 8px;
+            word-wrap: break-word; /* Quebra palavras gigantes (ex: sequências ALT muito longas) */
+            max-width: 200px; /* Limite de segurança para as células */
+        }
+        .filter-input input, .filter-input select {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* O container que segura o input e o ícone juntos */
+        .filter-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        
+        /* O input de texto: ganha um "enchimento" na direita para o texto não encostar no ícone */
+        .filter-wrapper input[type="text"], 
+        .filter-wrapper input[type="number"] {
+            flex-grow: 1;
+            width: 100%;
+            padding-right: 35px; /* Espaço reservado para o ícone */
+            box-sizing: border-box;
+        }
+
+        /* Esconde a checkbox feia original gerada pelo Django */
+        .hidden-checkbox,
+        .filter-wrapper select {
+            display: none !important;
+        }
+
+        /* O visual do nosso ícone/botão clicável */
+        .icon-btn {
+            position: absolute;
+            right: 3px; /* Fixa no canto direito */
+            cursor: pointer;
+            opacity: 0.4; 
+            font-size: 12px;
+            user-select: none;
+            transition: 0.2s;
+        }
+
+        /* Quando passamos o mouse */
+        .icon-btn:hover {
+            opacity: 0.8;
+        }
+
+        .btn-null { right: 3px; }
+        .btn-exact { right: 20px; }
+
+        /* O TRUQUE DE MESTRE CSS: 
+           Se a checkbox invisível estiver (:checked), altera o ícone que vem logo depois dela (+) */
+        .hidden-checkbox:checked + .icon-btn {
+            opacity: 1; /* Fica 100% visível */
+            filter: drop-shadow(0px 0px 2px rgba(0, 123, 255, 0.8)); /* Dá um brilho azul */
+        }
+    </style>
+</head>
+
+<body>
+    {% if request.user.is_staff %}
+        <a href="{% url 'admin:index' %}">Painel Admin</a>
+    {% endif %}
+
+    <h1>Amostras VCF Lidas do Banco</h1>
+
+    <form id="filtro-form" method="get">
+        <button type="submit" style="margin-bottom: 15px;">Aplicar Filtros</button>
+        <tr> 
+            <td style="font-weight: bold;">
+                <!-- colocar a contagem com . (exemplo 212.104 ao inves de 212104) -->
+                {{ vcf_data.paginator.count }} resultados encontrados
+            </td> 
+        </tr>
+        
+        <div class="table-wrapper">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID_VARIANTE</th>
+                        <th>AMOSTRA</th>
+                        <th>GT</th>
+                        <th>AF</th>
+                        <th>DP</th>
+                    </tr>
+                    <tr class="filter-input">
+                            <th>
+                                <div class="filter-wrapper">
+                                    {{ filter.form.id_variante }} 
+
+                                    {{ filter.form.id_variante__exact }} 
+                                    <label for="id_id_variante__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                        📄
+                                    </label>
+                                    
+                                    {{ filter.form.id_variante__notnull }} 
+                                    <label for="id_id_variante__notnull" class="icon-btn btn-null" title="Ocultar Vazios">
+                                        🚫
+                                    </label>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="filter-wrapper">
+                                    {{ filter.form.amostra }} 
+                                    
+                                    {{ filter.form.amostra__exact }} 
+                                    <label for="id_amostra__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                        📄
+                                    </label>
+
+                                    {{ filter.form.amostra__notnull }} 
+                                    <label for="id_amostra__notnull" class="icon-btn" title="Ocultar Vazios">
+                                        🚫
+                                    </label>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="filter-wrapper">
+                                    {{ filter.form.gt }} 
+                                    
+                                    {{ filter.form.gt__exact }} 
+                                    <label for="id_gt__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                        📄
+                                    </label>
+
+                                    {{ filter.form.gt__notnull }} 
+                                    <label for="id_gt__notnull" class="icon-btn" title="Ocultar Vazios">
+                                        🚫
+                                    </label>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="filter-wrapper">
+                                    {{ filter.form.af }} 
+
+                                    {{ filter.form.af__exact }} 
+                                    <label for="id_af__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                        📄
+                                    </label>
+
+                                    {{ filter.form.af__notnull }} 
+                                    <label for="id_af__notnull" class="icon-btn" title="Ocultar Vazios">
+                                        🚫
+                                    </label>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="filter-wrapper">
+                                    {{ filter.form.dp }} 
+
+                                    {{ filter.form.dp__exact }} 
+                                    <label for="id_dp__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                        📄
+                                    </label>
+
+                                    {{ filter.form.dp__notnull }} 
+                                    <label for="id_dp__notnull" class="icon-btn" title="Ocultar Vazios">
+                                        🚫
+                                    </label>
+                                </div>
+                            </th>
+                        </tr>
+                </thead>
+                
+                <tbody>
+                    
+                    {% for amostra in vcf_data %}
+                    <tr>
+                        <td>{{ amostra.id_variante }}</td>
+                        <td>{{ amostra.amostra }}</td>
+                        <td>{{ amostra.gt }}</td>
+                        <td>{{ amostra.af }}</td>
+                        <td>{{ amostra.dp }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4" style="text-align: center;">Nenhuma amostra encontrada.</td></tr>
+                    
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div> 
+
+        <div style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border: 1px solid #ddd; display: inline-block;">
+            <span class="step-links">
+                {% if vcf_data.has_previous %}
+                    <a href="?{{query_params}}&page=1">&laquo; Primeira</a>
+                    <a href="?{{query_params}}&page={{ vcf_data.previous_page_number }}">Anterior</a>
+                    <!-- <a href="?page=1">&laquo; Primeira</a>
+                    <a href="?&page={{ vcf_data.previous_page_number }}">Anterior</a> -->
+                {% endif %}
+
+                <span class="current" style="margin: 0 10px; font-weight: bold;">
+                    Página {{ vcf_data.number }} de {{ vcf_data.paginator.num_pages }}
+                </span>
+
+                {% if vcf_data.has_next %}
+                    <a href="?{{query_params}}&page={{ vcf_data.next_page_number }}">Próxima</a>
+                    <a href="?{{query_params}}&page={{ vcf_data.paginator.num_pages }}">Última &raquo;</a>
+                    <!-- <a href="?page={{ vcf_data.next_page_number }}">Próxima</a>
+                    <a href="?page={{ vcf_data.paginator.num_pages }}">Última &raquo;</a> -->
+                {% endif %}
+            </span>
+        </div>
+    </form>
+</body>
+</html>     
