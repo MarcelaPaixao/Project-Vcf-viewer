@@ -1,11 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 
 from .models import FltrdCybersegChr21Amostras, FltrdCybersegChr21Variantes
 from django.contrib.auth.decorators import login_required
 from .filters import VarianteFilter, AmostraFilter
 
-@login_required
 def variantes(request):
     queryset = FltrdCybersegChr21Variantes.objects.all()
 
@@ -45,7 +44,6 @@ def amostras1(request):
     
     return render(request, 'vcf_viewer/amostras.html', {'vcf_data': vcf_data})
 
-@login_required
 def amostras(request):
     queryset = FltrdCybersegChr21Amostras.objects.all()
 
@@ -69,9 +67,21 @@ def amostras(request):
         
     return render(request, 'vcf_viewer/amostras.html', context)
 
-@login_required
 def home(request):
     return render(request, 'home.html')
 
-    # fazer um para o id davariante associado ever de transforma em um linkpara direcionar para outra página 
-    # que vai ter todas as infos sobre essa variante especifica e as amostras relacionadas a ela
+
+def variante_detalhes(request, id_variante):
+    variante = get_object_or_404(FltrdCybersegChr21Variantes, pk=id_variante)
+    amostras = FltrdCybersegChr21Amostras.objects.filter(id_variante=id_variante)
+    # amostras = variante.objects.all() #poderia fazer assim?
+
+    # paginator = Paginator(amostras, 100) 
+    # ... terminar paginação
+    
+    context = {
+        "variante": variante,
+        "amostras": amostras,
+    }
+
+    return render(request, 'vcf_viewer/variante_detalhes.html', context)

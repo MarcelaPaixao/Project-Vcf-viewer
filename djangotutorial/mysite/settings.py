@@ -47,6 +47,8 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.common.CommonMiddleware', 
+    'django.contrib.auth.middleware.LoginRequiredMiddleware', #permite que todas as páginas exijam login por padrão
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -119,5 +121,5 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-# Editar para redirecionar para uma página de home por exemplo
-LOGIN_REDIRECT_URL = "vcf_viewer:index"
+LOGIN_URL = 'login' 
+LOGIN_REDIRECT_URL = "vcf_viewer:home"

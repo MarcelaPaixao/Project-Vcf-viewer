@@ -90,6 +90,10 @@
         <a href="{% url 'admin:index' %}">Painel Admin</a>
     {% endif %}
 
+    <span> 
+        <a href="{% url 'vcf_viewer:home' %}">Home</a>
+    </span>
+
     <h1>Amostras VCF Lidas do Banco</h1>
 
     <form id="filtro-form" method="get">
@@ -111,6 +115,7 @@
                         <th>AF</th>
                         <th>DP</th>
                     </tr>
+                    <!-- {{ filter.form.id_variante }}  -->
                     <tr class="filter-input">
                             <th>
                                 <div class="filter-wrapper">
@@ -194,7 +199,12 @@
                     
                     {% for amostra in vcf_data %}
                     <tr>
-                        <td>{{ amostra.id_variante }}</td>
+                        <!-- <td>{{ amostra.id_variante.id_variante }}</td> -->
+                        <td>
+                            <a href="{% url 'vcf_viewer:variante_detalhes' amostra.id_variante.id_variante %}">
+                                {{ amostra.id_variante.id_variante }}
+                            </a>
+                        </td>
                         <td>{{ amostra.amostra }}</td>
                         <td>{{ amostra.gt }}</td>
                         <td>{{ amostra.af }}</td>
@@ -213,8 +223,6 @@
                 {% if vcf_data.has_previous %}
                     <a href="?{{query_params}}&page=1">&laquo; Primeira</a>
                     <a href="?{{query_params}}&page={{ vcf_data.previous_page_number }}">Anterior</a>
-                    <!-- <a href="?page=1">&laquo; Primeira</a>
-                    <a href="?&page={{ vcf_data.previous_page_number }}">Anterior</a> -->
                 {% endif %}
 
                 <span class="current" style="margin: 0 10px; font-weight: bold;">
@@ -224,8 +232,6 @@
                 {% if vcf_data.has_next %}
                     <a href="?{{query_params}}&page={{ vcf_data.next_page_number }}">Próxima</a>
                     <a href="?{{query_params}}&page={{ vcf_data.paginator.num_pages }}">Última &raquo;</a>
-                    <!-- <a href="?page={{ vcf_data.next_page_number }}">Próxima</a>
-                    <a href="?page={{ vcf_data.paginator.num_pages }}">Última &raquo;</a> -->
                 {% endif %}
             </span>
         </div>

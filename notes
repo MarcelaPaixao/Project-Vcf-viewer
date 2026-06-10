@@ -9,11 +9,14 @@
 # talvez fazer uma para as amostras tbm? nao sei se faz sentido, pois na propria pesquisa ja vemos tudo isso
 
 
-fazer o login ser a url base, e logo em seguida direciona para a home
+fazer o login ser a url base, e logo em seguida direciona para a home(redirecionamento ok)
 esse login dentro de accounts é o que?
 
-## ligar tabelas (ver tudosobre uma variante por ex) !!!!!!!!!!!!
-## fazer a pagina da variante ligada as amostras dela
+cenario 2. Para isso, devo então criar uma nova função na view que irá capturar orequest relacionado a uma variante especifica, 
+renderizar isso em um novo hmtl e atualizar  a minha vcf_viewer/urls.py certo?
+
+## ligar tabelas (ver tudosobre uma variante por ex) (semi ok)
+## fazer a pagina da variante ligada as amostras dela (ok)
 ## cosultas exemplo para demonstrar ( a partir dessse relacionamento enter as tabelas)
 ## PRAZO:10/06 !!!!!!!!!
 ## exemplos de queries para demonstração
@@ -25,8 +28,8 @@ esse login dentro de accounts é o que?
 # redirecionar do login para uma pagina home(tipo a admin) que vai ter as opçoes de tabelas para visualização
 # tabela de amostras (ok)
 # limitar exibição tabelas (ok)
-# página de login -> Editar para redirecionar para uma página de home por exemplo!!!!
-# conexão das duas tabelas 
+# página de login -> Editar para redirecionar para uma página de home por exemplo (ok)
+# conexão das duas tabelas (semi ok)
 # PERMISSÕES READ/WRITE!!!!
 # página de cadastro
 # ver de unir os html, muita repetição de codigo!!
