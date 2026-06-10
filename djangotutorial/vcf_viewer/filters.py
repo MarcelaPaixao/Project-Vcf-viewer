@@ -29,17 +29,17 @@ class VarianteFilter(django_filters.FilterSet):
                 return queryset.filter(**{lookup:search_term})
         return queryset
 
-    # id_var__notnull = django_filters.BooleanFilter(
-    #     field_name='id_variante', 
-    #     method='filter_not_null', 
-    #     widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
-    # )
+    id_variante__notnull = django_filters.BooleanFilter(
+        field_name='id_variante', 
+        method='filter_not_null', 
+        widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    )
 
-    # id_var__exact = django_filters.BooleanFilter(
-    #     field_name='id_variante', 
-    #     method='filter_exact_toggle', 
-    #     widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
-    # )
+    id_variante__exact = django_filters.BooleanFilter(
+        field_name='id_variante', 
+        method='filter_exact_toggle', 
+        widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
+    )
 
     chrom__notnull = django_filters.BooleanFilter(
         field_name='chrom', 
@@ -179,6 +179,11 @@ class AmostraFilter(django_filters.FilterSet):
                 lookup = '__'.join([name, 'exact'])
                 return queryset.filter(**{lookup:search_term})
         return queryset
+    
+    id_variante = django_filters.NumberFilter(
+        field_name='id_variante__id_variante',
+        lookup_expr='icontains'
+    )
 
     id_variante__notnull = django_filters.BooleanFilter(
         field_name='id_variante', 

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalhes da Variante</title>
+
+    <style>
+        .table-wrapper {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            table-layout: fixed;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            word-wrap: break-word;
+            max-width: 200px;
+            border: 1px solid black;
+        }
+
+        thead {
+            background-color: #ffffff;
+        }
+
+        thead th {
+            border-bottom: 1px solid #000;
+        }
+
+        .info-table {
+            width: auto;
+            min-width: 600px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p>
+        <a href="{% url 'vcf_viewer:variantes' %}">
+            ← Voltar para tabela de variantes
+        </a>
+    </p>
+    <p>
+        <a href="{% url 'vcf_viewer:amostras' %}">
+            ← Voltar para tabela de amostras
+        </a>
+    </p>
+
+    <h1>Detalhes da Variante {{ variante.id_variante }}</h1>
+
+    <div class="table-wrapper">
+        <table class="info-table">
+            <thead>
+                <tr>
+                    <th>ID_VARIANTE</th>
+                    <th>CHROM</th>
+                    <th>POS</th>
+                    <th>REF</th>
+                    <th>ALT</th>
+                    <th>QUAL</th>
+                    <th>FILTER</th>
+                    <th>INFO_DP</th>
+                    <th>INFO_GT</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>{{ variante.id_variante }}</td>
+                    <td>{{ variante.chrom }}</td>
+                    <td>{{ variante.pos }}</td>
+                    <td>{{ variante.ref }}</td>
+                    <td>{{ variante.alt }}</td>
+                    <td>{{ variante.qual }}</td>
+                    <td>{{ variante.filter }}</td>
+                    <td>{{ variante.info_dp }}</td>
+                    <td>{{ variante.info_gt }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Amostras Associadas</h2>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Amostra</th>
+                    <th>GT</th>
+                    <th>AF</th>
+                    <th>DP</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for amostra in amostras %}
+                <tr>
+                    <td>{{ amostra.amostra }}</td>
+                    <td>{{ amostra.gt }}</td>
+                    <td>{{ amostra.af }}</td>
+                    <td>{{ amostra.dp }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align:center;">
+                        Nenhuma amostra encontrada para esta variante.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

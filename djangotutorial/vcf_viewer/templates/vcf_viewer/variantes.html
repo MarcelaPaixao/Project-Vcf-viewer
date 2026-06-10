@@ -89,7 +89,11 @@
     {% if request.user.is_staff %}
         <a href="{% url 'admin:index' %}">Painel Admin</a>
     {% endif %}
-
+    
+    <span> 
+        <a href="{% url 'vcf_viewer:home' %}">Home</a>
+    </span>
+    
     <h1>Variantes VCF Lidas do Banco</h1>
 
     <form id="filtro-form" method="get">
@@ -105,6 +109,7 @@
             <table border="1">
                 <thead>
                     <tr>
+                        <th>ID_Variante</th>
                         <th>Cromossomo</th>
                         <th>Posição</th>
                         <th>REF</th>
@@ -116,6 +121,21 @@
                     </tr>
 
                     <tr class="filter-input">
+                         <th>
+                            <div class="filter-wrapper">
+                                {{ filter.form.id_variante }} 
+
+                                {{ filter.form.id_variante__exact }} 
+                                <label for="id_id_variante__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                    📄
+                                </label>
+                                
+                                {{ filter.form.id_variante__notnull }} 
+                                <label for="id_id_variante__notnull" class="icon-btn btn-null" title="Ocultar Vazios">
+                                    🚫
+                                </label>
+                            </div>
+                        </th>
                         <th>
                             <div class="filter-wrapper">
                                 {{ filter.form.chrom }} 
@@ -243,6 +263,12 @@
                     
                     {% for variant in vcf_data %}
                     <tr>
+                        <td>
+                            <a href="{% url 'vcf_viewer:variante_detalhes' variant.id_variante %}">
+                                {{ variant.id_variante }}
+                            </a>
+                        </td>
+                        <!-- <td>{{ variant.id_variante }}</td> -->
                         <td>{{ variant.chrom }}</td>
                         <td>{{ variant.pos }}</td>
                         <td>{{ variant.ref }}</td>
