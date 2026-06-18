@@ -1,50 +1,47 @@
-*Seria interessante transformar em classe, ajustar código com paradigma OO
-*Sugestão de melhoria: para arquivos muitos grandes, vale a pena fazer o processamento com chunks
-*O sqlite só está aguentando exibir até 400 colunas
+CONSIDERAÇÕES (sobre o script original):
+* Seria interessante transformar em classe, ajustar código com paradigma OO
+* Sugestão de melhoria: para arquivos muitos grandes, vale a pena fazer o processamento com chunks
+* O sqlite só está aguentando exibir até 400 colunas
 
-#############   MYSITE  #######################################################################################
+##################################################### MYSITE #####################################################
 
-# fazer um para o id davariante associado ever de transforma em um linkpara direcionar para outra página 
-# que vai ter todas as infos sobre essa variante especifica e as amostras relacionadas a ela
-# talvez fazer uma para as amostras tbm? nao sei se faz sentido, pois na propria pesquisa ja vemos tudo isso
+----------------------------------------------- TAREFAS PENDENTES -----------------------------------------------
+    
+    ------------------------------------------------  PRIORIDADE ------------------------------------------------
+    # acrescentar coluna de prioridade nas amostras para gerenciar privilegio de acesso
+    ## toy example(diferenciação  para o que exibir para cada tipo de usuario, a partir desse ralacionamento)!!!!!!
+    # conferir o join das tabelas (ver se resultados estão batrendo com vcf/genomic.db)
+    # cosultas exemplo para demonstrar ( a partir dessse relacionamento enter as tabelas) !!!!!
+    # mudar a forma  de acesso ao banco? substituir banco legado por manipulação completo no django???? !!!!!!!!
+    
+    ## PRAZO:19/06 !!!!!!!!!
+    --------------------------------------------------------------------------------------------------------------
 
-
-fazer o login ser a url base, e logo em seguida direciona para a home(redirecionamento ok)
-esse login dentro de accounts é o que?
-
-cenario 2. Para isso, devo então criar uma nova função na view que irá capturar orequest relacionado a uma variante especifica, 
-renderizar isso em um novo hmtl e atualizar  a minha vcf_viewer/urls.py certo?
-
-## ligar tabelas (ver tudosobre uma variante por ex) (semi ok)
-## fazer a pagina da variante ligada as amostras dela (ok)
-## cosultas exemplo para demonstrar ( a partir dessse relacionamento enter as tabelas)
-## PRAZO:10/06 !!!!!!!!!
-## exemplos de queries para demonstração
-## gerar tela login com usuario
-## toy example(diferenciação  para o que exibir para cada tipo de usuario, a partir desse ralacionamento)
-
-# filtros nas colunas (ok)
-# exibir a qtd de resultados encontrados (ok)
+# fazer o login ser a url base, e logo em seguida direciona para a home (redirecionamento ok) (?)
+# fazer filtross na detalhes_variante tbm
+* esse login dentro de accounts é o que?
+# gerar tela login com usuario
 # redirecionar do login para uma pagina home(tipo a admin) que vai ter as opçoes de tabelas para visualização
-# tabela de amostras (ok)
-# limitar exibição tabelas (ok)
-# página de login -> Editar para redirecionar para uma página de home por exemplo (ok)
-# conexão das duas tabelas (semi ok)
 # PERMISSÕES READ/WRITE!!!!
 # página de cadastro
 # ver de unir os html, muita repetição de codigo!!
+# mudar db? mudança para postgres ou mySql
+
+----------------------------------------------- TAREFAS COMPLETADAS -----------------------------------------------
+## ligar tabelas (ver tudo sobre uma variante por ex) (ok)
+## fazer a pagina da variante ligada as amostras dela (ok)
+# filtros nas colunas (ok)
+# exibir a qtd de resultados encontrados (ok)
+# tabela de amostras (ok)
+# limitar exibição tabelas (ok)
+# página de login -> Editar para redirecionar para uma página de home por exemplo (ok)
+# conexão das duas tabelas (ok)
+
+#####################################################################################################################
 
 
 
-# mudar a forma  de acesso ao banco? substituir banco legado por manipulação completo no django????
-# mudança para postgres ou mySql
-
-# adicionar coluna de ID davariante, e tornar issoum link para as aostras referente a ela??? (possibilidade
-de isso ficar um ccaos de muitas tabelas para gerenciar). Pensar melhor sobre essa conexão 
-( a ideia é ser melhor que a da extensão de sqlite do vscode)
-
-#################################################################################################################
-
+######################################################## Q&A ########################################################
 
 * O que significa cada itm da tupla GT retornada pela cyvcf2?
     " genotypes returns a list for each sample Indicating the allele and phasing.

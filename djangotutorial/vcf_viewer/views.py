@@ -10,7 +10,7 @@ def variantes(request):
 
     f = VarianteFilter(request.GET, queryset=queryset)
     
-    paginator = Paginator(f.qs, 100) 
+    paginator = Paginator(f.qs, 70) 
     
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -49,7 +49,7 @@ def amostras(request):
 
     f = AmostraFilter(request.GET, queryset=queryset)
     
-    paginator = Paginator(f.qs, 100) 
+    paginator = Paginator(f.qs, 70) 
     
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -76,12 +76,20 @@ def variante_detalhes(request, id_variante):
     amostras = FltrdCybersegChr21Amostras.objects.filter(id_variante=id_variante)
     # amostras = variante.objects.all() #poderia fazer assim?
 
-    # paginator = Paginator(amostras, 100) 
-    # ... terminar paginação
+    paginator = Paginator(amostras, 70) 
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    
+    query_params = request.GET.copy()
+    
+    if 'page' in query_params:
+        del query_params['page']
     
     context = {
         "variante": variante,
-        "amostras": amostras,
+        "amostras": page_obj,
+        "query_params": query_params.urlencode()
     }
 
     return render(request, 'vcf_viewer/variante_detalhes.html', context)
