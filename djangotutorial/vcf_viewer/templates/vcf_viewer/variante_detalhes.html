@@ -116,6 +116,22 @@
             </tbody>
         </table>
     </div>
+    <div style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border: 1px solid #ddd; display: inline-block;">
+        <span class="step-links">
+            {% if amostras.has_previous %}
+                <a href="?{{ query_params }}&page=1">&laquo; Primeira </a>
+                <a href="?{{ query_params }}&page={{ amostras.previous_page_number }}"> Anterior</a>
+            {% endif %}
+                
+            <span class="current" style="margin: 0 10px; font-weight: bold;">
+                Página {{ amostras.number }} de {{ amostras.paginator.num_pages }}
+            </span>
 
+            {% if amostras.has_next %}
+                <a href="?{{ query_params }}&page={{ amostras.next_page_number }}">Próxima </a> 
+                <a href="?{{ query_params }}&page={{ amostras.paginator.num_pages }}"> Última &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 </body>
 </html>
