@@ -31,21 +31,12 @@ def variantes(request):
 
     return render(request, "vcf_viewer/variantes.html", context)
 
-@login_required
-def amostras1(request):
-    queryset = FltrdCybersegChr21Amostras.objects.all()
-    
-    paginator = Paginator(queryset, 100) 
-    
-    # Pega o número da página atual vindo da URL (ex: /amostras?page=2)
-    page_number = request.GET.get('page')
-    
-    vcf_data = paginator.get_page(page_number)
-    
-    return render(request, 'vcf_viewer/amostras.html', {'vcf_data': vcf_data})
-
+# @login_required
 def amostras(request):
-    queryset = FltrdCybersegChr21Amostras.objects.all()
+    queryset = FltrdCybersegChr21Amostras.objects.filter(nivel_sigilo=1)
+    
+    if request.user.is_staff:
+        queryset = FltrdCybersegChr21Amostras.objects.all()
 
     f = AmostraFilter(request.GET, queryset=queryset)
     
@@ -67,14 +58,14 @@ def amostras(request):
         
     return render(request, 'vcf_viewer/amostras.html', context)
 
-def home(request):
-    return render(request, 'home.html')
-
-
+# @login_required
 def variante_detalhes(request, id_variante):
     variante = get_object_or_404(FltrdCybersegChr21Variantes, pk=id_variante)
-    amostras = FltrdCybersegChr21Amostras.objects.filter(id_variante=id_variante)
-    # amostras = variante.objects.all() #poderia fazer assim?
+    amostras = FltrdCybersegChr21Amostras.objects.filter(id_variante=id_variante, nivel_sigilo=1)
+    
+    if request.user.is_staff:
+        amostras = FltrdCybersegChr21Amostras.objects.filter(id_variante=id_variante)
+        # amostras = variante.objects.all() #poderia fazer assim?
 
     paginator = Paginator(amostras, 70) 
 
@@ -93,3 +84,6 @@ def variante_detalhes(request, id_variante):
     }
 
     return render(request, 'vcf_viewer/variante_detalhes.html', context)
+
+def home(request):
+    return render(request, 'home.html')
