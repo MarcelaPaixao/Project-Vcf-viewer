@@ -78,9 +78,55 @@ class Command(BaseCommand):
 
         # Tabela de variantes
         df_variantes = df_input.iloc[:, :8].copy()
+        df_variantes.columns = [
+            f"{col[0]}_{col[1]}" if col[1] else col[0] 
+            for col in df_variantes.columns
+        ]
+        df_variantes.insert(0, 'ID_VARIANTE', range(1, len(df_variantes) + 1))
+        
+        
         # Tabela de amostras
         df_amostras = df_input.iloc[:, 8:].copy()
+        df_amostras = df_amostras.stack(level=0, future_stack=True).reset_index()
+        df_amostras = df_amostras.rename(columns={'level_0': 'ID_VARIANTE', 'level_1': 'AMOSTRA'})
+        df_amostras['ID_VARIANTE'] = df_amostras['ID_VARIANTE'] + 1
 
-        # df_amostras = df_amostras.stack(level=0, future_stack=True).reset_index()
+        if 'GT' in df_amostras.columns:
+            # Transforma a lista em texto, mas se o dado for vazio (None), mantém vazio.
+            df_amostras['GT'] = df_amostras['GT'].apply(lambda x: str(x) if x is not None else None)
+        
+        # Adiciona coluna de nível de sigilo e define amostras sigilosas
+        protected_samples = ['UFES_001', 'UFES_003', 'UFES_006', 'UFES_007']
+        df_amostras['NIVEL_SIGILO'] = 1
+        df_amostras.loc[df_amostras['AMOSTRA'].isin(protected_samples), 'NIVEL_SIGILO'] = 2
 
-        self.stdout.write(self.style.SUCCESS, 'Importação finalizada com sucesso!')
+        # 4. Limpeza opcional (Descomente se quiser apagar os dados antigos a cada importação)
+        # FltrdCybersegChr21Variantes.objects.all().delete()
+        # FltrdCybersegChr21Amostras.objects.all().delete()
+
+        FltrdCybersegChr21Variantes.objects.bulk_create([
+            FltrdCybersegChr21Variantes(
+                id_variante=row['ID_VARIANTE'],
+                chrom=row['CHROM'],
+                pos=row['POS'],
+                ref=row['REF'],
+                alt=row['ALT'],
+                qual=row['QUAL'],
+                filter=row['FILTER'],
+                info_dp=row['INFO_DP'],
+                info_gt=row['INFO_GT'],
+            ) for _,row in df_variantes.iterrows()
+        ])
+
+        FltrdCybersegChr21Amostras.objects.bulk_create([
+            FltrdCybersegChr21Amostras(
+                id_variante_id=row['ID_VARIANTE'],
+                amostra=row['AMOSTRA'],
+                gt=row['GT'],
+                af=row['AF'],
+                dp=row['DP'],
+                nivel_sigilo=row['NIVEL_SIGILO']
+            ) for _,row in df_amostras.iterrows()
+        ])
+
+        self.stdout.write(self.style.SUCCESS('Importação finalizada com sucesso!'))

@@ -2,10 +2,13 @@ superuser:
 - marcela/marcela@email.com/teste123
 
 staff:
-- fulano/./staff111
+- fulano/./staff123
 
 common_users:
-- caramelo/./notstaff111
+- caramelo/./notstaff123
+
+amostras sigilosas:
+['UFES_001', 'UFES_003', 'UFES_006', 'UFES_007']
 
 - conectar o login normal ao admin
 - conectar o admin ao  mysite 
