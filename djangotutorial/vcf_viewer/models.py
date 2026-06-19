@@ -26,13 +26,14 @@ class FltrdCybersegChr21Variantes(models.Model):
 
 class FltrdCybersegChr21Amostras(models.Model):
     # id = models.IntegerField(primary_key=True, db_column='rowid')
+
     id_variante = models.ForeignKey(FltrdCybersegChr21Variantes, on_delete=models.CASCADE, db_column='ID_VARIANTE')  # Field name made lowercase.
     amostra = models.TextField(db_column='AMOSTRA', blank=True, null=True)  # Field name made lowercase.
     gt = models.TextField(db_column='GT', blank=True, null=True)  # Field name made lowercase.
     af = models.FloatField(db_column='AF', blank=True, null=True)  # Field name made lowercase.
     dp = models.IntegerField(db_column='DP', blank=True, null=True)  # Field name made lowercase.
     
-    nivel_sigilo = models.IntegerField(db_column='NIVEL_SIGILO', default=1)  # Field name made lowercase.
+    nivel_sigilo = models.IntegerField(db_column='NIVEL_SIGILO', blank=True, null=True, default=1) 
 
     class Meta:
         managed = True

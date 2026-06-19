@@ -6,28 +6,37 @@ CONSIDERAÇÕES (sobre o script original):
 ##################################################### MYSITE #####################################################
 
 ----------------------------------------------- TAREFAS PENDENTES -----------------------------------------------
-    
+* se eu fizezr conexão com o excel, permitir que só superuser consiga ver osdadosdas pessosas
     ------------------------------------------------  PRIORIDADE ------------------------------------------------
-    # acrescentar coluna de prioridade nas amostras para gerenciar privilegio de acesso
-    ## toy example(diferenciação  para o que exibir para cada tipo de usuario, a partir desse ralacionamento)!!!!!!
-    # conferir o join das tabelas (ver se resultados estão batrendo com vcf/genomic.db)
+    # conferir o join das tabelas (ver se resultados estão batrendo com vcf/genomic.db)!!!!!!!!
     # cosultas exemplo para demonstrar ( a partir dessse relacionamento enter as tabelas) !!!!!
-    # mudar a forma  de acesso ao banco? substituir banco legado por manipulação completo no django???? !!!!!!!!
+    # botão de alteração do sigilo para admin
+    # fazer filtross na detalhes_variante tbm
+    # melhorar estética html
+    # 
+    # página de cadastro    
+    # fazer botão de logout 
+    # entender migrate e makemigrations
+    # verificar manipulação de valores atraves do painel admin 
+    # verificar controle de concoirrencia sgbd
+    # endenter projeto!!!!!!
+    # entender painel admin (ate onde ele me permite ir)e niveis de acesso django
+    # banco de dados legado? que isso?
     
-    ## PRAZO:19/06 !!!!!!!!!
     --------------------------------------------------------------------------------------------------------------
 
 # fazer o login ser a url base, e logo em seguida direciona para a home (redirecionamento ok) (?)
-# fazer filtross na detalhes_variante tbm
 * esse login dentro de accounts é o que?
 # gerar tela login com usuario
 # redirecionar do login para uma pagina home(tipo a admin) que vai ter as opçoes de tabelas para visualização
 # PERMISSÕES READ/WRITE!!!!
-# página de cadastro
 # ver de unir os html, muita repetição de codigo!!
 # mudar db? mudança para postgres ou mySql
 
 ----------------------------------------------- TAREFAS COMPLETADAS -----------------------------------------------
+    # mudar a forma  de acesso ao banco? substituir banco legado por manipulação completo no django (ok)
+# acrescentar coluna de prioridade nas amostras para gerenciar privilegio de acesso(ok)
+## toy example(diferenciação  para o que exibir para cada tipo de usuario, a partir desse ralacionamento) (ok)
 ## ligar tabelas (ver tudo sobre uma variante por ex) (ok)
 ## fazer a pagina da variante ligada as amostras dela (ok)
 # filtros nas colunas (ok)
