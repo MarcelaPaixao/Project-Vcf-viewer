@@ -8,14 +8,14 @@ CONSIDERAÇÕES (sobre o script original):
 ----------------------------------------------- TAREFAS PENDENTES -----------------------------------------------
 * se eu fizezr conexão com o excel, permitir que só superuser consiga ver osdadosdas pessosas
     ------------------------------------------------  PRIORIDADE ------------------------------------------------
-    # conferir o join das tabelas (ver se resultados estão batrendo com vcf/genomic.db)!!!!!!!!
-    # cosultas exemplo para demonstrar ( a partir dessse relacionamento enter as tabelas) !!!!!
     # botão de alteração do sigilo para admin
     # fazer filtross na detalhes_variante tbm
     # melhorar estética html
-    # 
     # página de cadastro    
     # fazer botão de logout 
+    # conferir o join das tabelas (ver se resultados estão batrendo com vcf/genomic.db)!!!!!!!!
+    # cosultas exemplo para demonstrar ( a partir dessse relacionamento enter as tabelas) !!!!!
+    # 
     # entender migrate e makemigrations
     # verificar manipulação de valores atraves do painel admin 
     # verificar controle de concoirrencia sgbd
@@ -27,7 +27,7 @@ CONSIDERAÇÕES (sobre o script original):
 
 # fazer o login ser a url base, e logo em seguida direciona para a home (redirecionamento ok) (?)
 * esse login dentro de accounts é o que?
-# gerar tela login com usuario
+# gerar tela login com usuario (ue mas ja tem (?))
 # redirecionar do login para uma pagina home(tipo a admin) que vai ter as opçoes de tabelas para visualização
 # PERMISSÕES READ/WRITE!!!!
 # ver de unir os html, muita repetição de codigo!!

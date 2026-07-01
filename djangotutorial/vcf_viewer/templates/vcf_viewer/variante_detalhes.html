@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!-- {% block title %}Detalhes da Variante{% endblock %} -->
     <title>Detalhes da Variante</title>
 
+    <!-- {% block extra_css %} -->
     <style>
         .table-wrapper {
             max-width: 100%;
@@ -36,10 +38,11 @@
             min-width: 600px;
         }
     </style>
+    <!-- {% endblock %} -->
 </head>
 
 <body>
-
+<!-- {% block content %} -->
     <p>
         <a href="{% url 'vcf_viewer:variantes' %}">
             ← Voltar para tabela de variantes
@@ -57,7 +60,7 @@
         <table class="info-table">
             <thead>
                 <tr>
-                    <th>ID_VARIANTE</th>
+                    <th>VARIANTE</th>
                     <th>CHROM</th>
                     <th>POS</th>
                     <th>REF</th>
@@ -133,5 +136,6 @@
             {% endif %}
         </span>
     </div>
+<!-- {% endblock %} -->
 </body>
 </html>
