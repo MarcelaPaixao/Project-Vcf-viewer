@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vcf_viewer',
     'django_filters',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [
