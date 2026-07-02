@@ -179,6 +179,22 @@
             transform: translateY(-2px);
         }
 
+        .logout-btn {
+            background: none;
+            border: none;
+            color: white;
+            opacity: 0.9;
+            transition: 0.2s;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 16px;
+            padding: 0;
+        }
+        
+        .logout-btn:hover {
+            opacity: 0.6;
+        }
+
     </style>
 
     {% block extra_css %}
@@ -198,6 +214,15 @@
             {% if request.user.is_staff %}
                 <a href="{% url 'admin:index' %}">Painel Admin</a>
             {% endif %}
+
+            {% block link_logout %}
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Sair</button>
+            </form>
+            {% endif %}
+            {% endblock %}
             
         </div>
         <h2>Visualizador VCF</h2>

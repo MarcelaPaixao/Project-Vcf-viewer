@@ -10,7 +10,7 @@ def variantes(request):
 
     f = VarianteFilter(request.GET, queryset=queryset)
     
-    paginator = Paginator(f.qs, 70) 
+    paginator = Paginator(f.qs, 85) 
     
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -40,7 +40,7 @@ def amostras(request):
 
     f = AmostraFilter(request.GET, queryset=queryset)
     
-    paginator = Paginator(f.qs, 70) 
+    paginator = Paginator(f.qs, 85) 
     
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -67,7 +67,7 @@ def variante_detalhes(request, id_variante):
         amostras = FltrdCybersegChr21Amostras.objects.filter(id_variante=id_variante)
         # amostras = variante.objects.all() #poderia fazer assim?
 
-    paginator = Paginator(amostras, 70) 
+    paginator = Paginator(amostras, 85) 
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

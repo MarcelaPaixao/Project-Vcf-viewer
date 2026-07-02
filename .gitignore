@@ -52,7 +52,7 @@ Mkfile.old
 dkms.conf
 
 # Outputs
-*.txt
+# *.txt
 
 # Database
 *.db
