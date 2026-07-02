@@ -9,15 +9,15 @@ CONSIDERAÇÕES (sobre o script original):
 * se eu fizezr conexão com o excel, permitir que só superuser consiga ver osdadosdas pessosas
     ------------------------------------------------  PRIORIDADE ------------------------------------------------
     # botão de alteração do sigilo para admin!!!!! (ai a coliuna de sigilo fica visivel??)
-    # fazer botão de logout 
     # fazer filtross na detalhes_variante tbm
     # página de cadastro    
-    # conferir o join das tabelas (ver se resultados estão batrendo com vcf/genomic.db)!!!!!!!!
+    # criar logica de ler/baixar dados vs criar/deletar/ler/baixar
     # cosultas exemplo para demonstrar ( a partir dessse relacionamento enter as tabelas) !!!!!
+    #fazerum filtro extrade maior/igual nos campos numericos
+    # criar botao de carregamento do vcf direto  no site
     # 
     # entender migrate e makemigrations
-    # verificar manipulação de valores atraves do painel admin 
-    # verificar controle de concoirrencia sgbd
+    # verificar controle de concorrencia sgbd
     # endenter projeto!!!!!!
     # entender painel admin (ate onde ele me permite ir)e niveis de acesso django
     # banco de dados legado? que isso?
@@ -25,14 +25,14 @@ CONSIDERAÇÕES (sobre o script original):
     --------------------------------------------------------------------------------------------------------------
 
 # fazer o login ser a url base, e logo em seguida direciona para a home (redirecionamento ok) (?)
-* esse login dentro de accounts é o que?
-# gerar tela login com usuario (ue mas ja tem (?))
-# redirecionar do login para uma pagina home(tipo a admin) que vai ter as opçoes de tabelas para visualização
 # PERMISSÕES READ/WRITE!!!!
-# ver de unir os html, muita repetição de codigo!!
 # mudar db? mudança para postgres ou mySql
 
 ----------------------------------------------- TAREFAS COMPLETADAS -----------------------------------------------
+# conferir o join das tabelas (ver se resultados estão batrendo com vcf/genomic.db) (ok)
+# fazer botão de logout (ok)
+# gerar tela login com usuario (ok)
+# redirecionar do login para uma pagina home(tipo a admin) que vai ter as opçoes de tabelas para visualização(ok)
 # mudar a forma  de acesso ao banco? substituir banco legado por manipulação completo no django (ok)
 # melhorar estética html (ok sempre pode melhorar)
 # acrescentar coluna de prioridade nas amostras para gerenciar privilegio de acesso(ok)
