@@ -3,13 +3,49 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
     <style>
-        h1, body {
+        h2, body {
             font-family: 'Trebuchet MS', sans-serif;
         }
+        body {
+            margin: 0; 
+            background-color: #f0f0f5;
+        }
+        header {
+            background-color: #2c3e50; /* Um azul escuro bem elegante */
+            color: white; /* Letra branca para contrastar com o fundo escuro */
+            padding: 5px; /* Dá um respiro e engorda o cabeçalho */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Uma sombra leve para dar profundidade */
+            text-align: center;
+            position: relative;
+        }
+        .redirect_links {
+            position: absolute; /* <-- Tira os links do fluxo normal */
+            right: 30px;        /* Joga para o canto direito */
+            top: 50%;           /* Desce até a metade */
+            transform: translateY(-50%); /* Centraliza perfeitamente com o título */
+            display: flex;      /* Alinha os links lado a lado */
+            gap: 15px;
+        }
+        .redirect_links a{
+            color: white;
+        }
+        
+        a {
+            text-decoration: none;
+            transition: 0.2s;
+            opacity: 0.9;
+        }
+        a:hover {
+            opacity: 0.6;
+        }
+        .content {
+            padding: 20px;
+        }
         .table-wrapper {
+            border-radius: 6px;
             max-width: 100%;
             overflow-x: auto; /* Cria barra de rolagem horizontal se a tabela for maior que o monitor */
-            height: 100vh;
+            max-height: 80vh;
             overflow-y: auto;
         }
         table {
@@ -28,17 +64,33 @@
             border-bottom: 1px solid #000;
         }
         th, td {
-            padding: 8px;
+            padding: 12px 15px;
             word-wrap: break-word; /* Quebra palavras gigantes (ex: sequências ALT muito longas) */
             max-width: 200px; /* Limite de segurança para as células */
+            border-bottom: 1px solid #e0e0e0;
         }
+        /* Remove o fundo cinza padrão e deixa o cabeçalho branco */
+        th { background-color: #ffffff; }
+
+        /* Efeito Zebra: Linhas pares ficam levemente cinzas, ímpares brancas */
+        tbody tr:nth-child(even) { background-color: #f8f9fa; }
+        tbody tr:nth-child(odd) { background-color: #ffffff; }
+
+        /* Destaque: A linha brilha levemente quando você passa o mouse */
+        tbody tr:hover { 
+            background-color: #e2e8f0;
+        }
+
         .filter-input input, .filter-input select {
             width: 100%;
             box-sizing: border-box;
+            /* background-color: #f0f0f5; */
+
         }
 
         /* O container que segura o input e o ícone juntos */
         .filter-wrapper {
+            margin-top: 10px;
             position: relative;
             display: flex;
             align-items: center;
@@ -48,10 +100,17 @@
         /* O input de texto: ganha um "enchimento" na direita para o texto não encostar no ícone */
         .filter-wrapper input[type="text"], 
         .filter-wrapper input[type="number"] {
-            flex-grow: 1;
-            width: 100%;
-            padding-right: 35px; /* Espaço reservado para o ícone */
-            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px 35px 5px 8px; /* Ajuste fino do preenchimento */
+        }
+
+        /* Garante que o botão e o texto fiquem perfeitamente alinhados no meio */
+        .controle-superior {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Espaço entre o botão e o texto */
+            margin-bottom: 15px; /* Empurra a tabela para baixo */
         }
 
         /* Esconde a checkbox feia original gerada pelo Django */
@@ -84,41 +143,71 @@
             opacity: 1; /* Fica 100% visível */
             filter: drop-shadow(0px 0px 2px rgba(0, 123, 255, 0.8)); /* Dá um brilho azul */
         }
-        /* .redirect_links {
-            
-        } */
-        a{
+
+        .btn-custom {
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
             text-decoration: none;
-            opacity: 0.8;
-            transition: 0.2s;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
-        a:hover{
-            opacity: 0.4;
+
+        /* Botão Primário (Preenchido) */
+        .btn-primary {
+            background-color: #2c3e50; /* Usa o mesmo azul do cabeçalho */
+            color: #ffffff !important;
+            border: 2px solid #2c3e50;
         }
+
+        .btn-primary:hover {
+            opacity: 0.6;
+            border-color: #1a252f;
+            transform: translateY(-2px); /* Efeito de levantar o botão ao passar o mouse */
+        }
+
+        /* Botão Secundário (Vazado) */
+        .btn-outline {
+            background-color: transparent;
+            color: #2c3e50 !important;
+            border: 2px solid #2c3e50;
+        }
+
+        .btn-outline:hover {
+            opacity: 0.6;
+            transform: translateY(-2px);
+        }
+
     </style>
 
     {% block extra_css %}
     {% endblock %}
 
-    <div class="redirect_links">
-        {% if request.user.is_staff %}
-            <a href="{% url 'admin:index' %}">Painel Admin</a>
-        {% endif %}
-        
-        <span> 
-            <a href="{% url 'vcf_viewer:home' %}">Home</a>
-        </span>
-    </div>
-
 </head>
 
 <body>
-    <!-- Imagem de logo comum a todas as páginas -->
-    <!-- <img src="{% static 'images/sitelogo.png' %}" alt="Logo"> -->
+    <header>
+        <div class="redirect_links">
+            {% block link_home %}
+            <span> 
+                <a href="{% url 'vcf_viewer:home' %}">Home</a>
+            </span>
+            {% endblock %}
 
-    <!-- Espaço onde entrará o conteúdo específico de cada página -->
-    {% block content %}
-    {% endblock %}
+            {% if request.user.is_staff %}
+                <a href="{% url 'admin:index' %}">Painel Admin</a>
+            {% endif %}
+            
+        </div>
+        <h2>Visualizador VCF</h2>
+    </header>
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
 </body>
 
 </html>

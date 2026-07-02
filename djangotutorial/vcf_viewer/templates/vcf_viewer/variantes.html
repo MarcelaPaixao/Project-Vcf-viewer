@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% load humanize %}
 <html>
 <head>
     {% block title %}Visualizador VCF{% endblock %}
+    {% block extra_css %}
     <style>
+        .btn-primary:hover {
+            transform: translateY(0px);
+        }
+
     </style>
+    {% endblock %}
 </head>
 
 <!-- <body> -->
-{% block content %}
-    <!-- {% if request.user.is_staff %}
-        <a href="{% url 'admin:index' %}">Painel Admin</a>
-    {% endif %}
-    
-    <span> 
-        <a href="{% url 'vcf_viewer:home' %}">Home</a>
-    </span> -->
-    
-    <h1>Variantes VCF</h1>
+{% block content %}    
+    <h1>Variantes</h1>
 
     <form id="filtro-form" method="get">
-        <button type="submit" style="margin-bottom: 15px;">Filtrar</button>
-
-        <tr> 
-            <td style="font-weight: bold;">
-                {{ vcf_data.paginator.count }} resultados encontrados
-            </td> 
-        </tr>
+        <div class="controle-superior">
+            <button type="submit" class="btn-custom btn-primary">Filtrar</button>
+            
+            <span style="font-weight: bold;">
+                {{ vcf_data.paginator.count|intcomma }} resultados encontrados
+            </span>
+        </div>
         
         <div class="table-wrapper">
             <table border="1">

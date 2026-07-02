@@ -8,11 +8,10 @@ CONSIDERAÇÕES (sobre o script original):
 ----------------------------------------------- TAREFAS PENDENTES -----------------------------------------------
 * se eu fizezr conexão com o excel, permitir que só superuser consiga ver osdadosdas pessosas
     ------------------------------------------------  PRIORIDADE ------------------------------------------------
-    # botão de alteração do sigilo para admin
-    # fazer filtross na detalhes_variante tbm
-    # melhorar estética html
-    # página de cadastro    
+    # botão de alteração do sigilo para admin!!!!! (ai a coliuna de sigilo fica visivel??)
     # fazer botão de logout 
+    # fazer filtross na detalhes_variante tbm
+    # página de cadastro    
     # conferir o join das tabelas (ver se resultados estão batrendo com vcf/genomic.db)!!!!!!!!
     # cosultas exemplo para demonstrar ( a partir dessse relacionamento enter as tabelas) !!!!!
     # 
@@ -34,7 +33,8 @@ CONSIDERAÇÕES (sobre o script original):
 # mudar db? mudança para postgres ou mySql
 
 ----------------------------------------------- TAREFAS COMPLETADAS -----------------------------------------------
-    # mudar a forma  de acesso ao banco? substituir banco legado por manipulação completo no django (ok)
+# mudar a forma  de acesso ao banco? substituir banco legado por manipulação completo no django (ok)
+# melhorar estética html (ok sempre pode melhorar)
 # acrescentar coluna de prioridade nas amostras para gerenciar privilegio de acesso(ok)
 ## toy example(diferenciação  para o que exibir para cada tipo de usuario, a partir desse ralacionamento) (ok)
 ## ligar tabelas (ver tudo sobre uma variante por ex) (ok)

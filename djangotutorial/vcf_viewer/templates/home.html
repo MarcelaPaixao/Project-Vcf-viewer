@@ -1,59 +1,66 @@
 <!DOCTYPE html>
+
+{% extends 'base.html' %}
+
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Painel</title>
+    <!-- <title>Painel</title> -->
+    {% block title %}Painel{% endblock %}
+
+    {% block extra_css %}
     <style>
-        h1, body {
-            font-family: 'Trebuchet MS', sans-serif;
+        .welcome-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 80px; 
         }
-        body {
+        .welcome-card {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 550px; /* Não deixa o card esticar demais em monitores grandes */
+            padding: 50px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05); /* Sombra super moderna e difusa */
             text-align: center;
-            margin-top: 50px;
         }
-        .btn-container {
-            margin-top: 30px;
+        .welcome-card h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 28px;
         }
-        .btn {
-            padding: 10px 20px;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin: 10px;
-            display: inline-block;
+
+        .welcome-card p {
+            color: #666666;
+            margin-bottom: 35px;
+            font-size: 16px;
         }
-        .btn-variantes {
-            background-color: #007bff;
-        }
-        .btn-amostras {
-            background-color: #28a745;
-        }
-        .btn-admin {
-            background-color: #585e59;
+
+        /* Organiza os botões lado a lado */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Espaço exato entre os botões */
         }
     </style>
+    {% endblock %}
 </head>
-<body>
 
-    <h1>Bem-vindo ao Visualizador VCF</h1>
-    <p>Selecione o que você deseja explorar:</p>
-
-    <div class="btn-container">
-        <a href="{% url 'vcf_viewer:variantes' %}" class="btn btn-variantes">
-            Tabela de Variantes
-        </a>
+{% block content %}
+<div class="welcome-container">
+    <div class="welcome-card">
+        <h2>Bem-vindo ao Visualizador VCF</h2>
+        <p>Selecione o módulo de dados que deseja explorar:</p>
         
-        <a href="{% url 'vcf_viewer:amostras' %}" class="btn btn-amostras">
-            Tabela de Amostras
-        </a>
-
+        <div class="button-group">
+            <a href="{% url 'vcf_viewer:variantes' %}" class="btn-custom btn-primary">Tabela de Variantes</a>
+            <a href="{% url 'vcf_viewer:amostras' %}" class="btn-custom btn-outline">Tabela de Amostras</a>
         <!-- Futuramente esse painel admin vai ser algo customizado, para lidar com permissões e etc -->
-        {% if request.user.is_staff %}
-            <a href="{% url 'admin:index' %}" class="btn btn-admin">
-                Painel Admin
-            </a>
-        {% endif %}
+        </div>
     </div>
+</div>
+{% endblock %}
 
-</body>
 </html>
