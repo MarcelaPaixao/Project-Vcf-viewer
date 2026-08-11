@@ -8,27 +8,29 @@ CONSIDERAÇÕES (sobre o script original):
 ----------------------------------------------- TAREFAS PENDENTES -----------------------------------------------
 * se eu fizezr conexão com o excel, permitir que só superuser consiga ver osdadosdas pessosas
     ------------------------------------------------  PRIORIDADE ------------------------------------------------
+ ->   # criarlinks para os sites que foram mostrados (genomicDB e afins)!!!!!!!!!!!!!!!!!!!!
     # botão de alteração do sigilo para admin!!!!! (ai a coliuna de sigilo fica visivel??)
-    # fazer filtross na detalhes_variante tbm
-    # página de cadastro    
     # criar logica de ler/baixar dados vs criar/deletar/ler/baixar
-    # cosultas exemplo para demonstrar ( a partir dessse relacionamento enter as tabelas) !!!!!
-    #fazerum filtro extrade maior/igual nos campos numericos
+->    # fazerum filtro extrade maior/igual nos campos numericos
     # criar botao de carregamento do vcf direto  no site
-    # 
-    # entender migrate e makemigrations
-    # verificar controle de concorrencia sgbd
-    # endenter projeto!!!!!!
-    # entender painel admin (ate onde ele me permite ir)e niveis de acesso django
-    # banco de dados legado? que isso?
+    # página de cadastro    
+    
+    
+  ->  #### fazer como um pop-up o filtro de gte lte????? talvez um pop-up mais amigavel(pensamento original, sem escurecer fundo da tela)
     
     --------------------------------------------------------------------------------------------------------------
 
+# entender migrate e makemigrations
+# verificar controle de concorrencia sgbd
+# endenter projeto!!!!!!
+# entender painel admin (ate onde ele me permite ir)e niveis de acesso django
+# banco de dados legado? que isso?
 # fazer o login ser a url base, e logo em seguida direciona para a home (redirecionamento ok) (?)
 # PERMISSÕES READ/WRITE!!!!
 # mudar db? mudança para postgres ou mySql
 
 ----------------------------------------------- TAREFAS COMPLETADAS -----------------------------------------------
+# fazer filtross na detalhes_variante tbm (ok)
 # conferir o join das tabelas (ver se resultados estão batrendo com vcf/genomic.db) (ok)
 # fazer botão de logout (ok)
 # gerar tela login com usuario (ok)

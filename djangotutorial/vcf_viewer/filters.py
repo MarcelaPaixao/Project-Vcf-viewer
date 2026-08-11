@@ -88,7 +88,10 @@ class VarianteFilter(django_filters.FilterSet):
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
 
-    qual__gte = django_filters.NumberFilter(field_name='qual', lookup_expr='gte') ###########################OLHAR!!!
+    qual__gte = django_filters.NumberFilter(
+        field_name='qual', 
+        lookup_expr='gte'
+    ) ###########################OLHAR!!!
     qual__notnull = django_filters.BooleanFilter(
         field_name='qual', 
         method='filter_not_null', 

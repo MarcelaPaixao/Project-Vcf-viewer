@@ -4,6 +4,7 @@
 <html>
 <head>
     {% block title %}Visualizador VCF{% endblock %}
+    
     {% block extra_css %}
     <style>
         .btn-primary:hover {
@@ -120,6 +121,8 @@
                         </th>
                         <th>
                             <div class="filter-wrapper">
+                                <!-- {{ filter.form.qual__gte }}  -->
+
                                 {{ filter.form.qual }} 
 
                                 {{ filter.form.qual__exact }} 

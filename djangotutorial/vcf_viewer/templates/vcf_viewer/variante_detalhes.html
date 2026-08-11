@@ -7,7 +7,10 @@
 
     {% block extra_css %}
     <style>
-        
+        .btn-primary:hover {
+            transform: translateY(0px);
+        }
+
     </style>
     {% endblock %}
 </head>
@@ -60,36 +63,108 @@
 
     <h2>Amostras Associadas</h2>
 
-    <div class="table-wrapper">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>AMOSTRA</th>
-                    <th>GT</th>
-                    <th>AF</th>
-                    <th>DP</th>
-                </tr>
-            </thead>
+    <form id="filtro-form" method="get">
+        <div class="controle-superior">
+            <button type="submit" class="btn-custom btn-primary">Filtrar</button>
+            
+            <span style="font-weight: bold;">
+                {{ vcf_data.paginator.count|intcomma }} resultados encontrados
+            </span>
+        </div>
 
-            <tbody>
-                {% for amostra in amostras %}
-                <tr>
-                    <td>{{ amostra.amostra }}</td>
-                    <td>{{ amostra.gt }}</td>
-                    <td>{{ amostra.af }}</td>
-                    <td>{{ amostra.dp }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4" style="text-align:center;">
-                        Nenhuma amostra encontrada para esta variante.
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border: 1px solid #ddd; display: inline-block; border-radius: 6px;">
+        <div class="table-wrapper">
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>AMOSTRA</th>
+                        <th>GT</th>
+                        <th>AF</th>
+                        <th>DP</th>
+                    </tr>
+
+                    <tr class="filter-input">
+                        <th>
+                                    <div class="filter-wrapper">
+                                        {{ filter.form.amostra }} 
+                                        
+                                        {{ filter.form.amostra__exact }} 
+                                        <label for="id_amostra__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                            📄
+                                        </label>
+
+                                        {{ filter.form.amostra__notnull }} 
+                                        <label for="id_amostra__notnull" class="icon-btn" title="Ocultar Vazios">
+                                            🚫
+                                        </label>
+                                    </div>
+                        </th>
+                        <th>
+                                    <div class="filter-wrapper">
+                                        {{ filter.form.gt }} 
+                                        
+                                        {{ filter.form.gt__exact }} 
+                                        <label for="id_gt__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                            📄
+                                        </label>
+
+                                        {{ filter.form.gt__notnull }} 
+                                        <label for="id_gt__notnull" class="icon-btn" title="Ocultar Vazios">
+                                            🚫
+                                        </label>
+                                    </div>
+                        </th>
+                        <th>
+                                    <div class="filter-wrapper">
+                                        {{ filter.form.af }} 
+
+                                        {{ filter.form.af__exact }} 
+                                        <label for="id_af__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                            📄
+                                        </label>
+
+                                        {{ filter.form.af__notnull }} 
+                                        <label for="id_af__notnull" class="icon-btn" title="Ocultar Vazios">
+                                            🚫
+                                        </label>
+                                    </div>
+                        </th>
+                        <th>
+                                    <div class="filter-wrapper">
+                                        {{ filter.form.dp }} 
+
+                                        {{ filter.form.dp__exact }} 
+                                        <label for="id_dp__exact" class="icon-btn btn-exact" title="Busca Exata">
+                                            📄
+                                        </label>
+
+                                        {{ filter.form.dp__notnull }} 
+                                        <label for="id_dp__notnull" class="icon-btn" title="Ocultar Vazios">
+                                            🚫
+                                        </label>
+                                    </div>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for amostra in amostras %}
+                    <tr>
+                        <td>{{ amostra.amostra }}</td>
+                        <td>{{ amostra.gt }}</td>
+                        <td>{{ amostra.af }}</td>
+                        <td>{{ amostra.dp }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align:center;">
+                            Nenhuma amostra encontrada para esta variante.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top: 15px; padding: 10px; background-color: #f8f9fa; border: 1px solid #ddd; display: inline-block; border-radius: 6px;">
         <span class="step-links">
             {% if amostras.has_previous %}
                 <a href="?{{ query_params }}&page=1">&laquo; Primeira </a>
@@ -105,6 +180,7 @@
                 <a href="?{{ query_params }}&page={{ amostras.paginator.num_pages }}"> Última &raquo;</a>
             {% endif %}
         </span>
-    </div>
+        </div>
+    </form>
 {% endblock %}
 </html>
