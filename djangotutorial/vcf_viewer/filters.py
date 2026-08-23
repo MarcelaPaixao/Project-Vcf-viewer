@@ -29,6 +29,14 @@ class VarianteFilter(django_filters.FilterSet):
                 return queryset.filter(**{lookup:search_term})
         return queryset
 
+    id_variante__gte = django_filters.NumberFilter(
+        field_name='id_variante', 
+        lookup_expr='gte'
+    ) 
+    id_variante__lte = django_filters.NumberFilter(
+        field_name='id_variante', 
+        lookup_expr='lte'
+    ) 
     id_variante__notnull = django_filters.BooleanFilter(
         field_name='id_variante', 
         method='filter_not_null', 
@@ -53,6 +61,14 @@ class VarianteFilter(django_filters.FilterSet):
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
 
+    pos__gte = django_filters.NumberFilter(
+        field_name='pos', 
+        lookup_expr='gte'
+    ) 
+    pos__lte = django_filters.NumberFilter(
+            field_name='pos', 
+            lookup_expr='lte'
+    ) 
     pos__notnull = django_filters.BooleanFilter(
         field_name='pos', 
         method='filter_not_null', 
@@ -88,16 +104,20 @@ class VarianteFilter(django_filters.FilterSet):
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
 
+    ########################### MARCELA ATT
     qual__gte = django_filters.NumberFilter(
         field_name='qual', 
         lookup_expr='gte'
-    ) ###########################OLHAR!!!
+    ) 
+    qual__lte = django_filters.NumberFilter(
+            field_name='qual', 
+            lookup_expr='lte'
+    ) 
     qual__notnull = django_filters.BooleanFilter(
         field_name='qual', 
         method='filter_not_null', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    
     qual__exact = django_filters.BooleanFilter(
         field_name='qual', 
         method='filter_exact_toggle', 
@@ -116,12 +136,19 @@ class VarianteFilter(django_filters.FilterSet):
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
 
+    # info_dp__gte = django_filters.NumberFilter(
+    #     field_name='info_dp', 
+    #     lookup_expr='gte'
+    # ) 
+    # info_dp__lte = django_filters.NumberFilter(
+    #     field_name='info_dp', 
+    #     lookup_expr='lte'
+    # ) 
     info_dp__notnull = django_filters.BooleanFilter(
         field_name='info_dp', 
         method='filter_not_null', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    
     info_dp__exact = django_filters.BooleanFilter(
         field_name='info_dp', 
         method='filter_exact_toggle', 
@@ -182,7 +209,15 @@ class AmostraFilter(django_filters.FilterSet):
                 lookup = '__'.join([name, 'exact'])
                 return queryset.filter(**{lookup:search_term})
         return queryset
-    
+
+    id_variante__gte = django_filters.NumberFilter(
+        field_name='id_variante', 
+        lookup_expr='gte'
+    ) 
+    id_variante__lte = django_filters.NumberFilter(
+        field_name='id_variante',
+        lookup_expr='lte'
+    ) 
     id_variante = django_filters.NumberFilter(
         field_name='id_variante__id_variante',
         lookup_expr='icontains'
@@ -222,25 +257,39 @@ class AmostraFilter(django_filters.FilterSet):
         method='filter_exact_toggle', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    
+
+    af__gte = django_filters.NumberFilter(
+        field_name='af', 
+        lookup_expr='gte'
+    ) 
+    af__lte = django_filters.NumberFilter(
+            field_name='af', 
+            lookup_expr='lte'
+    ) 
     af__notnull = django_filters.BooleanFilter(
         field_name='af', 
         method='filter_not_null', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    
     af__exact = django_filters.BooleanFilter(
         field_name='af', 
         method='filter_exact_toggle', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
 
+    dp__gte = django_filters.NumberFilter(
+        field_name='dp', 
+        lookup_expr='gte'
+    ) 
+    dp__lte = django_filters.NumberFilter(
+        field_name='dp', 
+        lookup_expr='lte'
+    ) 
     dp__notnull = django_filters.BooleanFilter(
         field_name='dp', 
         method='filter_not_null', 
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
-    
     dp__exact = django_filters.BooleanFilter(
         field_name='dp', 
         method='filter_exact_toggle', 

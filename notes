@@ -14,7 +14,8 @@ CONSIDERAÇÕES (sobre o script original):
 ->    # fazerum filtro extrade maior/igual nos campos numericos
     # criar botao de carregamento do vcf direto  no site
     # página de cadastro    
-    
+    # adicionar botao de ordenacao de resultado (ainda não sei como escolher a coluna base a cada momento)
+    # tornar botao de range azul quando ele ta clicado
     
   ->  #### fazer como um pop-up o filtro de gte lte????? talvez um pop-up mais amigavel(pensamento original, sem escurecer fundo da tela)
     
