@@ -46,7 +46,9 @@
             max-width: 100%;
             overflow-x: auto; /* Cria barra de rolagem horizontal se a tabela for maior que o monitor */
             max-height: 80vh;
-            overflow-y: auto;
+            overflow-y: scroll;
+
+            min-height: 200px;
         }
         table {
             width: 100%;
@@ -81,6 +83,11 @@
             background-color: #e2e8f0;
         }
 
+        .filter-input th {
+            padding-left: 7px;
+            padding-right: 7px;
+        }
+
         .filter-input input, .filter-input select {
             width: 100%;
             box-sizing: border-box;
@@ -98,11 +105,16 @@
         }
         
         /* O input de texto: ganha um "enchimento" na direita para o texto não encostar no ícone */
-        .filter-wrapper input[type="text"], 
+        .filter-wrapper input[type="text"]{
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px 40px 5px 8px; /* Ajuste fino do preenchimento */
+        }
+         
         .filter-wrapper input[type="number"] {
             border: 1px solid #ccc;
             border-radius: 4px;
-            padding: 5px 35px 5px 8px; /* Ajuste fino do preenchimento */
+            padding: 5px 50px 5px 8px; /* Ajuste fino do preenchimento */
         }
 
         /* Garante que o botão e o texto fiquem perfeitamente alinhados no meio */
@@ -128,6 +140,9 @@
             font-size: 12px;
             user-select: none;
             transition: 0.2s;
+
+            width: 15px;
+            text-align: center;
         }
 
         /* Quando passamos o mouse */
@@ -136,7 +151,53 @@
         }
 
         .btn-null { right: 3px; }
-        .btn-exact { right: 20px; }
+        .btn-exact { right: 18px; }
+        .btn-range { right: 36px; }
+
+        /* .dropdown {
+            // Nao precisa de 'position: relative' porque vai herdar o 'absolute' do icon-btn 
+        } */
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 110px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 10;
+            right: 0; /* Faz o menu abrir para a esquerda, evitando vazar da tela */
+            top: 14px; /* Joga um pouco para baixo do ícone */
+            padding: 7px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            cursor: default; /* O mouse volta ao normal (setinha) dentro do menu */
+            text-align: left;
+        }
+
+        .dropdown-left .dropdown-content {
+            left: 0;
+            right: auto;
+        }
+
+        .dropdown-content input {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 3px;
+            margin-top: 3px;
+            padding: 2px;
+        }
+
+        .dropdown-content input[type="number"] {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 5px 10px 5px 8px; /* Ajuste fino do preenchimento */
+        }
+
+        /* O menu aparece quando passa o mouse OU quando você está digitando dentro dele */
+        .dropdown:hover .dropdown-content,
+        .dropdown:focus-within .dropdown-content {
+            display: block;
+        }
 
         /* Se a checkbox invisível estiver (:checked), altera o ícone que vem logo depois dela (+) */
         .hidden-checkbox:checked + .icon-btn {
