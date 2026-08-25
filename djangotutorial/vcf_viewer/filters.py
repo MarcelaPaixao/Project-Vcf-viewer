@@ -29,6 +29,27 @@ class VarianteFilter(django_filters.FilterSet):
                 return queryset.filter(**{lookup:search_term})
         return queryset
 
+    def filter_for_size(self, queryset, name, value):
+        if value.isdigit():
+            lookup = '__'.join([name, 'regex'])
+            return  queryset.filter(**{lookup: r'(^|,)[^,]{' + str(value) + r'}(,|$)'})
+
+        elif value.endswith('+') and value[:-1].isdigit():
+            lookup = '__'.join([name, 'regex'])
+            return queryset.filter(**{lookup: r'(^|,)[^,]{' + str(value[:-1]) + r',}(,|$)'})
+
+        elif value.endswith('-') and value[:-1].isdigit():
+            lookup = '__'.join([name, 'regex'])
+            return queryset.filter(**{f"{name}__regex": r'(^|,)[^,]{1,' + str(value[:-1]) + r'}(,|$)'})
+
+        elif self.data.get(f"{name}__exact"):
+            return queryset
+
+        else:
+            lookup = '__'.join([name, 'icontains'])
+            return queryset.filter(**{lookup:value})
+
+
     id_variante__gte = django_filters.NumberFilter(
         field_name='id_variante', 
         lookup_expr='gte'
@@ -66,8 +87,8 @@ class VarianteFilter(django_filters.FilterSet):
         lookup_expr='gte'
     ) 
     pos__lte = django_filters.NumberFilter(
-            field_name='pos', 
-            lookup_expr='lte'
+        field_name='pos', 
+        lookup_expr='lte'
     ) 
     pos__notnull = django_filters.BooleanFilter(
         field_name='pos', 
@@ -80,6 +101,10 @@ class VarianteFilter(django_filters.FilterSet):
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
     
+    ref = django_filters.CharFilter(
+        field_name='ref', 
+        method='filter_for_size', 
+    )
     ref__notnull = django_filters.BooleanFilter(
         field_name='ref', 
         method='filter_not_null', 
@@ -92,6 +117,11 @@ class VarianteFilter(django_filters.FilterSet):
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
 
+
+    alt = django_filters.CharFilter(
+        field_name='alt', 
+        method='filter_for_size', 
+    )
     alt__notnull = django_filters.BooleanFilter(
         field_name='alt', 
         method='filter_not_null', 
@@ -104,7 +134,6 @@ class VarianteFilter(django_filters.FilterSet):
         widget=forms.CheckboxInput(attrs={'class': 'hidden-checkbox'})
     )
 
-    ########################### MARCELA ATT
     qual__gte = django_filters.NumberFilter(
         field_name='qual', 
         lookup_expr='gte'

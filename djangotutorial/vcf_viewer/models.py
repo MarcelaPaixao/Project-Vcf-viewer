@@ -15,7 +15,7 @@ class FltrdCybersegChr21Variantes(models.Model):
     pos = models.IntegerField(db_column='POS', blank=True, null=True)  # Field name made lowercase.
     ref = models.TextField(db_column='REF', blank=True, null=True)  # Field name made lowercase.
     alt = models.TextField(db_column='ALT', blank=True, null=True)  # Field name made lowercase.
-    qual = models.FloatField(db_column='QUAL', blank=True, null=True)  # Field name made lowercase.
+    qual = models.DecimalField(db_column='QUAL', decimal_places=2, max_digits=10, blank=True, null=True)  # Field name made lowercase.
     filter = models.TextField(db_column='FILTER', blank=True, null=True)  # Field name made lowercase.
     info_dp = models.TextField(db_column='INFO_DP', blank=True, null=True)  # Field name made lowercase.
     info_gt = models.TextField(db_column='INFO_GT', blank=True, null=True)  # Field name made lowercase.

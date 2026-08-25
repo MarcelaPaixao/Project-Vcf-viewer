@@ -4,6 +4,7 @@ from cyvcf2 import VCF
 import  pandas as pd
 import numpy as np
 from enum import Enum
+from decimal import Decimal
 
 def vcf_to_df_filtered_Samples(vcf_path):
     vcf_file = VCF(vcf_path)
@@ -101,8 +102,8 @@ class Command(BaseCommand):
         df_amostras.loc[df_amostras['AMOSTRA'].isin(protected_samples), 'NIVEL_SIGILO'] = 2
 
         # 4. Limpeza opcional (Descomente se quiser apagar os dados antigos a cada importação)
-        # FltrdCybersegChr21Variantes.objects.all().delete()
-        # FltrdCybersegChr21Amostras.objects.all().delete()
+        FltrdCybersegChr21Variantes.objects.all().delete()
+        FltrdCybersegChr21Amostras.objects.all().delete()
 
         FltrdCybersegChr21Variantes.objects.bulk_create([
             FltrdCybersegChr21Variantes(
@@ -111,7 +112,7 @@ class Command(BaseCommand):
                 pos=row['POS'],
                 ref=row['REF'],
                 alt=row['ALT'],
-                qual=row['QUAL'],
+                qual=Decimal(str(row['QUAL'])) if pd.notna(row['QUAL']) else None,
                 filter=row['FILTER'],
                 info_dp=row['INFO_DP'],
                 info_gt=row['INFO_GT'],
