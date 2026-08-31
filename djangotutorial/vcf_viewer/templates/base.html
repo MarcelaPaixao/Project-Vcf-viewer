@@ -102,6 +102,12 @@
             display: flex;
             align-items: center;
             width: 100%;
+            z-index: 1;
+        }
+
+        .filter-wrapper:hover,
+        .filter-wrapper:focus-within {
+            z-index: 999;
         }
         
         /* O input de texto: ganha um "enchimento" na direita para o texto não encostar no ícone */
@@ -140,9 +146,16 @@
             font-size: 12px;
             user-select: none;
             transition: 0.2s;
-
             width: 15px;
             text-align: center;
+        }
+
+        /* Classe injetada pelo Django quando o filtro Range está em uso */
+        .icon-active {
+            opacity: 1 !important;
+            text-shadow: 
+                0px 0px 2px rgba(0, 123, 255, 0.9),
+                0px 0px 6px rgba(0, 123, 255, 0.7);
         }
 
         /* Quando passamos o mouse */
@@ -153,10 +166,6 @@
         .btn-null { right: 3px; }
         .btn-exact { right: 18px; }
         .btn-range { right: 36px; }
-
-        /* .dropdown {
-            // Nao precisa de 'position: relative' porque vai herdar o 'absolute' do icon-btn 
-        } */
 
         .dropdown-content {
             display: none;
@@ -172,6 +181,8 @@
             border: 1px solid #ddd;
             cursor: default; /* O mouse volta ao normal (setinha) dentro do menu */
             text-align: left;
+            color: #333; 
+            text-shadow: none;
         }
 
         .dropdown-left .dropdown-content {
@@ -202,7 +213,10 @@
         /* Se a checkbox invisível estiver (:checked), altera o ícone que vem logo depois dela (+) */
         .hidden-checkbox:checked + .icon-btn {
             opacity: 1; /* Fica 100% visível */
-            filter: drop-shadow(0px 0px 2px rgba(0, 123, 255, 0.8)); /* Dá um brilho azul */
+            text-shadow: 
+                0px 0px 2px rgba(0, 123, 255, 0.9), 
+                0px 0px 3px rgba(0, 123, 255, 0.7);
+            filter: none;
         }
 
         .btn-custom {

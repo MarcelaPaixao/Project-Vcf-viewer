@@ -53,7 +53,7 @@ dkms.conf
 
 # Outputs
 # *.txt
-notes.txt
+notes
 
 # Database
 *.db
@@ -66,3 +66,5 @@ venv/*
 # Folders with sensitive data
 files/*
 output/*
+
+*.ipynb
