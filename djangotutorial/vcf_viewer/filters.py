@@ -220,6 +220,12 @@ class VarianteFilter(django_filters.FilterSet):
                     'lookup_expr' : 'icontains',
                 },
             },
+            models.DecimalField: {
+                'filter_class': django_filters.NumberFilter,
+                'extra': lambda f: {
+                    'lookup_expr' : 'icontains',
+                },
+            },
         }
 
 class AmostraFilter(django_filters.FilterSet):

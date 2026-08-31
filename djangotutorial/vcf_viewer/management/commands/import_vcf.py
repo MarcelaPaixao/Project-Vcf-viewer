@@ -1,9 +1,13 @@
+from django.core.management.base import BaseCommand 
+from django.db import transaction 
+from tqdm import tqdm
+
+from vcf_viewer.models import ( 
+    FltrdCybersegChr21Variantes, 
+    FltrdCybersegChr21Amostras )
 from django.core.management.base import BaseCommand
-from vcf_viewer.models import FltrdCybersegChr21Variantes, FltrdCybersegChr21Amostras
 from cyvcf2 import VCF
 import  pandas as pd
-import numpy as np
-from enum import Enum
 from decimal import Decimal
 
 def vcf_to_df_filtered_Samples(vcf_path):
@@ -33,12 +37,17 @@ def vcf_to_df_filtered_Samples(vcf_path):
 
     data = []
     for variant in vcf_file:
+        # pegar a qual em string para manter valores
+        variant_qual = str(variant).split('\t')[5]
+        qual_str = None if variant_qual == '.' else variant_qual
+
         fltrd_line = [
             variant.CHROM,
             variant.POS,                                   
             variant.REF,
             ",".join(variant.ALT) if variant.ALT else ".",  # ALT é uma lista, transformamos em string separada por vírgula
-            variant.QUAL,                                   
+            # variant.QUAL,    
+            qual_str,                               
             variant.FILTER if variant.FILTER else "PASS",   # cyvcf2 retorna None se for PASS
             variant.INFO.get('DP'),                        
             variant.INFO.get('GT'),    
@@ -75,6 +84,9 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         file_path = kwargs['path_vcf']
 
+        # Tamanho de cada lote 
+        BATCH_SIZE = 5000
+
         df_input = vcf_to_df_filtered_Samples(file_path)
 
         # Tabela de variantes
@@ -101,33 +113,38 @@ class Command(BaseCommand):
         df_amostras['NIVEL_SIGILO'] = 1
         df_amostras.loc[df_amostras['AMOSTRA'].isin(protected_samples), 'NIVEL_SIGILO'] = 2
 
-        # 4. Limpeza opcional (Descomente se quiser apagar os dados antigos a cada importação)
-        FltrdCybersegChr21Variantes.objects.all().delete()
-        FltrdCybersegChr21Amostras.objects.all().delete()
+        with transaction.atomic():
+            # 4. Limpeza opcional (Descomente se quiser apagar os dados antigos a cada importação)
+            FltrdCybersegChr21Variantes.objects.all().delete()
+            FltrdCybersegChr21Amostras.objects.all().delete()
 
-        FltrdCybersegChr21Variantes.objects.bulk_create([
-            FltrdCybersegChr21Variantes(
-                id_variante=row['ID_VARIANTE'],
-                chrom=row['CHROM'],
-                pos=row['POS'],
-                ref=row['REF'],
-                alt=row['ALT'],
-                qual=Decimal(str(row['QUAL'])) if pd.notna(row['QUAL']) else None,
-                filter=row['FILTER'],
-                info_dp=row['INFO_DP'],
-                info_gt=row['INFO_GT'],
-            ) for _,row in df_variantes.iterrows()
-        ])
-
-        FltrdCybersegChr21Amostras.objects.bulk_create([
-            FltrdCybersegChr21Amostras(
-                id_variante_id=row['ID_VARIANTE'],
-                amostra=row['AMOSTRA'],
-                gt=row['GT'],
-                af=row['AF'],
-                dp=row['DP'],
-                nivel_sigilo=row['NIVEL_SIGILO']
-            ) for _,row in df_amostras.iterrows()
-        ])
+            for start in tqdm(range(0, len(df_variantes), BATCH_SIZE), desc="Importando variantes", unit="batch"):
+                FltrdCybersegChr21Variantes.objects.bulk_create([
+                    FltrdCybersegChr21Variantes(
+                        id_variante=row['ID_VARIANTE'],
+                        chrom=row['CHROM'],
+                        pos=row['POS'],
+                        ref=row['REF'],
+                        alt=row['ALT'],
+                        qual=Decimal(row['QUAL']) if pd.notna(row['QUAL']) else None,
+                        filter=row['FILTER'],
+                        info_dp=row['INFO_DP'],
+                        info_gt=row['INFO_GT'],
+                    ) for _,row in df_variantes.iloc[ start:start + BATCH_SIZE ].iterrows()
+                ])
+            
+            for start in tqdm(range(0, len(df_amostras), BATCH_SIZE), desc="Importando amostras", unit="batch"): 
+                FltrdCybersegChr21Amostras.objects.bulk_create(
+                    (
+                        FltrdCybersegChr21Amostras(
+                            id_variante_id=row['ID_VARIANTE'],
+                            amostra=row['AMOSTRA'],
+                            gt=row['GT'],
+                            af=row['AF'],
+                            dp=row['DP'],
+                            nivel_sigilo=row['NIVEL_SIGILO']
+                        ) for _, row in df_amostras.iloc[start:start + BATCH_SIZE].iterrows()
+                    )
+                )
 
         self.stdout.write(self.style.SUCCESS('Importação finalizada com sucesso!'))

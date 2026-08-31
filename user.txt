@@ -7,7 +7,7 @@ staff:
 common_users:
 - caramelo/./notstaff123
 
-amostras sigilosas:
+amostras sigilosas (exemplos arbitrários):
 ['UFES_001', 'UFES_003', 'UFES_006', 'UFES_007']
 
 - conectar o login normal ao admin

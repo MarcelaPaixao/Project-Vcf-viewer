@@ -53,6 +53,7 @@ dkms.conf
 
 # Outputs
 # *.txt
+notes.txt
 
 # Database
 *.db
